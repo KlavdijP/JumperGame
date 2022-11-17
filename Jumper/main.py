@@ -1,49 +1,46 @@
-import pygame
+import pygame, sys
 from player import Player
+from functions import *
+from settings import *
+from level import Level
 
 pygame.init()
 
-WIDTH = 500
-HEIGHT = 800
-
 #BACKGROUND
-bg = pygame.transform.scale(pygame.image.load('./assets/bck.png'), (500,800))
-
+# bg = load_image('./assets/bck.png', 500,800)
 
 #PLAYER
-player = Player(50,50)
-
+# player = Player(WIDTH/5, 600)
 
 #PLATFORMS
-platforms = [[150,30, 100, 400]]
+platforms = [[WIDTH/2-70/2,700, 70, 10]]
 
 #ENEMIES
-enemy = pygame.transform.scale(pygame.image.load('./assets/enemy-fly1.png'), (100,100))
-enemy2 = pygame.transform.scale(pygame.image.load('./assets/enemy-stick1.png'), (100,150))
+# enemy = pygame.transform.scale(pygame.image.load('./assets/enemy-fly1.png'), (100,100))
+# enemy2 = pygame.transform.scale(pygame.image.load('./assets/enemy-stick1.png'), (100,150))
 
 
 #GAME
-fps = 60
-timer = pygame.time.Clock()
-screen = pygame.display.set_mode([WIDTH,HEIGHT])
+screen = pygame.display.set_mode((WIDTH,HEIGHT))
+clock = pygame.time.Clock()
+level = Level(0, screen)
 pygame.display.set_caption("Doodle Jumper")
 
-running = True
+while True:
+    blocks = []
 
-while running:
-    timer.tick(fps)
-    screen.blit(bg, (0,0))
-    screen.blit(player.image, (160, 250))
-    screen.blit(enemy, (0,0))
-    screen.blit(enemy2, (300,300))
+    level.run()
+    # screen.blit(load_image('./assets/bck.png', 500,800), (0,0))
+    # screen.fill('black')    
+    # for i in range(len(platforms)):
+    #     block = pygame.draw.rect(screen, (0, 0, 0), platforms[i])
+    #     blocks.append(block)
 
-    for plaftorm in platforms:
-        screen.blit(pygame.transform.scale(pygame.image.load('./assets/normal-block.png'), (plaftorm[0],plaftorm[1])), (plaftorm[2], plaftorm[3]))
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            running = False
+            pygame.quit()
+            sys.exit()
 
-    pygame.display.flip()
-
-pygame.quit()
+    pygame.display.update()
+    clock.tick(fps)

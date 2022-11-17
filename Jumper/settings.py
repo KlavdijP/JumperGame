@@ -1,0 +1,4 @@
+WIDTH = 500
+HEIGHT = 800
+
+fps = 60
