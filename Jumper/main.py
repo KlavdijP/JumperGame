@@ -29,18 +29,19 @@ pygame.display.set_caption("Doodle Jumper")
 while True:
     blocks = []
 
-    level.run()
     # screen.blit(load_image('./assets/bck.png', 500,800), (0,0))
     # screen.fill('black')    
     # for i in range(len(platforms)):
     #     block = pygame.draw.rect(screen, (0, 0, 0), platforms[i])
     #     blocks.append(block)
 
+    event_list = pygame.event.get()
+    level.run(event_list)
 
-    for event in pygame.event.get():
+    for event in event_list:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
-
+            
     pygame.display.update()
     clock.tick(fps)

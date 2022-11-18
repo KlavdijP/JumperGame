@@ -20,10 +20,10 @@ class Level:
         player.rect.x += player.direction.x * player.speed
 
 
-    def run(self):
+    def run(self, event_list):
         ##level platforms
         self.display_surface.blit(load_image('./assets/bck.png', 500,800), (0,0))
         #player
-        self.player.update()
+        self.player.update(event_list)
         self.horizontal_movement_collision()
         self.player.draw(self.display_surface)

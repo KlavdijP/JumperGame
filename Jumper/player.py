@@ -27,7 +27,8 @@ class Player(pygame.sprite.Sprite):
             self.jump()
         else:
             self.direction.x = 0
-    
+        
+
     def apply_gravity(self):
         self.direction.y += self.gravity
         self.rect.y += self.direction.y
@@ -36,9 +37,8 @@ class Player(pygame.sprite.Sprite):
         if self.direction.y >= 0:
             self.direction.y = self.jump_speed
 
-    def update(self):
+    def update(self, event_list):
         self.get_input()
-        self.rect.x += self.direction.x * self.speed
         self.apply_gravity()
 
         #ofscreen
@@ -46,3 +46,11 @@ class Player(pygame.sprite.Sprite):
             self.rect.x = WIDTH - 30
         elif self.rect.x > WIDTH:
             self.rect.x = -self.rect.w
+
+        #on moouse click
+        for event in event_list:
+            if event.type == pygame.MOUSEBUTTONUP:
+                pos = pygame.mouse.get_pos()
+                self.rect.x = pos[0]
+                self.rect.y = pos[1]
+                self.direction.y = 0
