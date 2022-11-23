@@ -13,7 +13,7 @@ pygame.init()
 # player = Player(WIDTH/5, 600)
 
 #PLATFORMS
-platforms = [[WIDTH/2-70/2,700, 70, 10]]
+# platforms = [[WIDTH/2-70/2,700, 70, 10]]
 
 #ENEMIES
 # enemy = pygame.transform.scale(pygame.image.load('./assets/enemy-fly1.png'), (100,100))
@@ -28,12 +28,6 @@ pygame.display.set_caption("Doodle Jumper")
 
 while True:
     blocks = []
-
-    # screen.blit(load_image('./assets/bck.png', 500,800), (0,0))
-    # screen.fill('black')    
-    # for i in range(len(platforms)):
-    #     block = pygame.draw.rect(screen, (0, 0, 0), platforms[i])
-    #     blocks.append(block)
 
     event_list = pygame.event.get()
     level.run(event_list)
