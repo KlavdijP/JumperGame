@@ -6,7 +6,7 @@ class Player(pygame.sprite.Sprite):
     def __init__(self, posx, posy):
         super().__init__()
         self.image = pygame.Surface((32, 64))
-        self.image = load_image('./assets/lik-left.png', 150, 100)
+        self.image = load_image('lik-left.png', 150, 100)
         # self.image.fill('red')
         self.rect = self.image.get_rect(topleft = (posx,posy))
 

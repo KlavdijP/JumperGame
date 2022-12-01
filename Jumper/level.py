@@ -28,7 +28,7 @@ class Level:
 
     def run(self, event_list):
         ##level platforms
-        self.display_surface.blit(load_image('./assets/bck.png', 500,800), (0,0))
+        self.display_surface.blit(load_image('bck.png', 500,800), (0,0))
 
         #player
         self.player.update(event_list)
@@ -39,6 +39,10 @@ class Level:
         #platform generator
         if self.platforms.sprites()[-1].rect.y == 100:
             self.platforms.add(Platform(randint(0, WIDTH), 0))
+
+        ##TODO check if there can be error in [0]
+        elif self.platforms.sprites()[0].rect.y >= HEIGHT/2:
+            self.platforms.sprites()[0].kill()
         #platform update
         self.platforms.update(0)
         self.platforms.draw(self.display_surface)

@@ -19,7 +19,6 @@ pygame.init()
 # enemy = pygame.transform.scale(pygame.image.load('./assets/enemy-fly1.png'), (100,100))
 # enemy2 = pygame.transform.scale(pygame.image.load('./assets/enemy-stick1.png'), (100,150))
 
-
 #GAME
 screen = pygame.display.set_mode((WIDTH,HEIGHT))
 clock = pygame.time.Clock()
