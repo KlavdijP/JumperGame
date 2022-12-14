@@ -7,7 +7,6 @@ class Platform(pygame.sprite.Sprite):
     def __init__(self, posx, posy):
         super().__init__()
         self.image = pygame.Surface((50,50))
-        self.rect = self.image.get_rect(topleft = (posx, posy))
 
         ### TYPES
         #   1- Normal
@@ -16,13 +15,15 @@ class Platform(pygame.sprite.Sprite):
         ###
         self.type = self.returnType()
         if self.type == 1:
-            self.image = load_image('normal-block.png', 100,20)
+            self.image = load_image('normal-block.png', 75,20)
         elif self.type == 2:
-            self.image = load_image('cloud-block.png', 100,20)
+            self.image = load_image('cloud-block.png', 75,20)
         else:
-            self.image = load_image('break-block.png', 100,20)
-        
-        self.speed = 4
+            self.image = load_image('break-block.png', 75,20)
+        self.rect = self.image.get_rect(topleft = (posx, posy))
+
+        self.speed = 0
+        self.generated = False
     
     def returnType(self):
         n = 1000

@@ -19,7 +19,11 @@ class Level:
         self.player.add(player_sprite)
 
         #Platform creation
-        self.platforms.add(Platform(randint(0, WIDTH-100), 0))
+        for i in range(0, HEIGHT, 100):
+            platform = Platform(randint(0, WIDTH-100), i)
+            if i != 0:
+                platform.generated = True
+            self.platforms.add(platform)
 
     def horizontal_movement_collision(self):
         player = self.player.sprite
@@ -36,7 +40,7 @@ class Level:
         player = self.player.sprite
         if player.direction.y >= 0:
             for sprite in self.platforms.sprites():
-                if sprite.rect.colliderect(player.rect):
+                if sprite.rect.colliderect([player.rect.x, player.rect.y+50, 64, 1]):
                     if sprite.type == 3:
                         sprite.kill()
                     elif sprite.type == 2:
@@ -52,7 +56,8 @@ class Level:
                 sprite.speed = 0
         else:
             for sprite in self.platforms.sprites():
-                sprite.speed = pow(1.2, 10)
+                if player.direction.y < 0:
+                    sprite.speed = player.direction.y * -1 #pow(1.5, 10)
 
     def run(self, event_list):
         ##level platforms
@@ -68,7 +73,8 @@ class Level:
         self.platform_speed()
         #platform generator
         for sprite in self.platforms.sprites():
-            if sprite.rect.y > 100 and sprite.rect.y <= 100+sprite.speed:
+            if sprite.rect.y > 100 and sprite.generated == False:
+                sprite.generated = True
                 self.platforms.add(Platform(randint(0, WIDTH-100), 0))
 
         #platform update

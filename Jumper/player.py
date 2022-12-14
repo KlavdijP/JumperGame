@@ -5,15 +5,15 @@ from settings import *
 class Player(pygame.sprite.Sprite):
     def __init__(self, posx, posy):
         super().__init__()
-        self.image = pygame.Surface((32, 64))
-        self.image = load_image('lik-left.png', 150, 100)
+        self.image = pygame.Surface((64, 64))
+        self.image = load_image('lik-left.png', 75, 50)
         # self.image.fill('red')
         self.rect = self.image.get_rect(topleft = (posx,posy))
 
         #player movement
         self.direction = pygame.math.Vector2(0,0)
         self.speed = 8
-        self.gravity = 0.8
+        self.gravity = 0.4
         self.jump_speed = -16
 
     def get_input(self):
@@ -38,6 +38,9 @@ class Player(pygame.sprite.Sprite):
     def update(self, event_list):
         self.get_input()
         self.apply_gravity()
+
+        if self.rect.y < HEIGHT/2 - 10:
+            self.rect.y = HEIGHT/2 - 10
 
         #offscreen
         if self.rect.x < 0-self.rect.w:
