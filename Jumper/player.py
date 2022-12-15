@@ -39,6 +39,9 @@ class Player(pygame.sprite.Sprite):
         self.get_input()
         self.apply_gravity()
 
+        #movement
+        self.rect.x += self.direction.x * self.speed 
+
         if self.rect.y < HEIGHT/2 - 10:
             self.rect.y = HEIGHT/2 - 10
 

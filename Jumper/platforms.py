@@ -35,7 +35,7 @@ class Platform(pygame.sprite.Sprite):
         else:
             return 3
 
-    def update(self, height):
+    def update(self):
         self.rect.y += self.speed
 
         if self.rect.y >= HEIGHT+50:

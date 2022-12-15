@@ -2,6 +2,7 @@ import pygame
 from player import Player
 from functions import *
 from platforms import Platform
+from enemies import EnemyAir
 from random import randint
 from settings import *
 from math import pow
@@ -11,6 +12,8 @@ class Level:
         self.player = pygame.sprite.GroupSingle()
         self.display_surface = surface
         self.platforms = pygame.sprite.Group()
+        self.enemyAir = pygame.sprite.Group()
+        self.score = 0
 
         self.setup_level()
 
@@ -24,11 +27,12 @@ class Level:
             if i != 0:
                 platform.generated = True
             self.platforms.add(platform)
+            self.score += 1
+        self.enemyAir.add(EnemyAir(WIDTH/2, 0))
 
     def horizontal_movement_collision(self):
         player = self.player.sprite
-        player.rect.x += player.direction.x * player.speed                
-
+        pass
         # for sprite in self.platforms.sprites():
         #     if sprite.rect.colliderect(player.rect):
         #         if player.direction.x < 0: #moving left and colliding left
@@ -65,7 +69,7 @@ class Level:
 
         #player
         self.player.update(event_list)
-        self.horizontal_movement_collision()
+        # self.horizontal_movement_collision()
         self.vertical_movement_collision()
         self.player.draw(self.display_surface)
 
@@ -76,7 +80,12 @@ class Level:
             if sprite.rect.y > 100 and sprite.generated == False:
                 sprite.generated = True
                 self.platforms.add(Platform(randint(0, WIDTH-100), 0))
+                self.score += 1
 
         #platform update
-        self.platforms.update(0)
+        self.platforms.update()
         self.platforms.draw(self.display_surface)
+
+        #enemy update
+        self.enemyAir.update(self.player.sprite)
+        self.enemyAir.draw(self.display_surface)
