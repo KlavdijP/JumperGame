@@ -30,15 +30,15 @@ class Level:
             self.score += 1
         self.enemyAir.add(EnemyAir(WIDTH/2, 0))
 
-    def horizontal_movement_collision(self):
-        player = self.player.sprite
-        pass
-        # for sprite in self.platforms.sprites():
-        #     if sprite.rect.colliderect(player.rect):
-        #         if player.direction.x < 0: #moving left and colliding left
-        #             player.rect.left = sprite.rect.right
-        #         elif player.direction.x > 0: #moving right and colliding right
-        #             player.rect.right = sprite.rect.left
+    # def horizontal_movement_collision(self):
+    #     player = self.player.sprite
+    #     pass
+    #     for sprite in self.platforms.sprites():
+    #         if sprite.rect.colliderect(player.rect):
+    #             if player.direction.x < 0: #moving left and colliding left
+    #                 player.rect.left = sprite.rect.right
+    #             elif player.direction.x > 0: #moving right and colliding right
+    #                 player.rect.right = sprite.rect.left
 
     def vertical_movement_collision(self):
         player = self.player.sprite
@@ -71,7 +71,6 @@ class Level:
         self.player.update(event_list)
         # self.horizontal_movement_collision()
         self.vertical_movement_collision()
-        self.player.draw(self.display_surface)
 
         #platforms
         self.platform_speed()
@@ -89,3 +88,6 @@ class Level:
         #enemy update
         self.enemyAir.update(self.player.sprite)
         self.enemyAir.draw(self.display_surface)
+
+        #player draw
+        self.player.draw(self.display_surface)
