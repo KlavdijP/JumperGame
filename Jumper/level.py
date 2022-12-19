@@ -18,6 +18,8 @@ class Level:
         #UI
         self.update_score = update_score
 
+        #Platform
+        self.last_type = 4 ##Last generated platform type
 
         self.setup_level()
 
@@ -28,10 +30,12 @@ class Level:
         #Platform creation
         for i in range(0, HEIGHT, 100):
             platform = Platform(randint(0, WIDTH-100), i)
+            while(platform.returnType() == 3 and self.last_type == 3):
+                platform = Platform(randint(0, WIDTH-100), i)
             if i != 0:
                 platform.generated = True
             self.platforms.add(platform)
-            # self.update_score(1)
+            self.last_type = platform.returnType()
         self.enemyAir.add(EnemyAir(WIDTH/2, 0))
 
     # def horizontal_movement_collision(self):
@@ -72,7 +76,11 @@ class Level:
         for sprite in self.platforms.sprites():
             if sprite.rect.y > 100 and sprite.generated == False:
                 sprite.generated = True
-                self.platforms.add(Platform(randint(0, WIDTH-100), 0))
+                platform = Platform(randint(0, WIDTH-100), 0)
+                while(platform.returnType() == 3 and self.last_type == 3):
+                    platform = Platform(randint(0, WIDTH-100), 0)
+                self.platforms.add(platform)
+                self.last_type = platform.returnType()
                 self.update_score(1)
 
     def playerShootBullet(self, clickPos):

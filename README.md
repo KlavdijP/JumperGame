@@ -12,16 +12,8 @@ Enemies
     Update stanja enemyAir
 
 Meniji (3x5*)
+
 Progression
-
-    <!-- Level 1: Normal blocks no enemies
-    Level 2: Normal blocks enemies
-    Level 3: All blocks enemies
-
-    Perhaps Level 1 and 2 should be limited to certain height unlocked and unlock Level 3 that goes
-    indefinetly. -->
-
-    DEFERED
     Difficulty will increase over time
     Perhaps other landscapes
 
@@ -42,3 +34,5 @@ Theme and name changes
 ## DONE
 Platform generation
 Bullet kindof done
+Kontrolni elementi grafičnega uporabniškega vmesnika (3x5*)
+    1. Score
