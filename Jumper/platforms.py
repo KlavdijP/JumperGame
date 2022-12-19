@@ -13,7 +13,7 @@ class Platform(pygame.sprite.Sprite):
         #   2- Dissapears after jumped on
         #   3- Breaks after jumped on
         ###
-        self.type = self.returnType()
+        self.type = self.giveType()
         if self.type == 1:
             self.image = load_image('normal-block.png', 75,20)
         elif self.type == 2:
@@ -26,6 +26,9 @@ class Platform(pygame.sprite.Sprite):
         self.generated = False
     
     def returnType(self):
+        return self.type
+        
+    def giveType(self):
         n = 1000
         randType = randint(0, 1000)
         if randType < 750:

@@ -1,0 +1,13 @@
+Enemies AI in text
+
+EnemyAir
+detect = False
+returnBack = False
+1. Detect player position
+    save player position and self position
+    move towards the saved player position
+    detect = True
+2. upon destination move back to the previous self position
+    detect = False
+    returnBack = True
+REPEAT

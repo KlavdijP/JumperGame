@@ -3,38 +3,42 @@ from player import Player
 from functions import *
 from settings import *
 from level import Level
+from ui import UI
 
 pygame.init()
-
-#BACKGROUND
-# bg = load_image('./assets/bck.png', 500,800)
-
-#PLAYER
-# player = Player(WIDTH/5, 600)
-
-#PLATFORMS
-# platforms = [[WIDTH/2-70/2,700, 70, 10]]
-
-#ENEMIES
-# enemy = pygame.transform.scale(pygame.image.load('./assets/enemy-fly1.png'), (100,100))
-# enemy2 = pygame.transform.scale(pygame.image.load('./assets/enemy-stick1.png'), (100,150))
-
 #GAME
+
+class Game:
+    def __init__(self):
+        self.status = "ingame"
+        
+        self.score = 0
+        self.level = Level(0,screen, self.update_score)
+        self.ui = UI(screen)
+
+        #Score
+
+    def run(self, event_list):
+        if self.status == "ingame":
+            self.level.run(event_list)
+            self.ui.show_score(self.score)
+
+    def update_score(self, amount):
+        self.score += amount
+
 screen = pygame.display.set_mode((WIDTH,HEIGHT))
 clock = pygame.time.Clock()
-level = Level(0, screen)
-pygame.display.set_caption("Doodle Jumper")
+game = Game()
+pygame.display.set_caption("SKYFRIK")
 
 while True:
-    blocks = []
-
     event_list = pygame.event.get()
-    level.run(event_list)
-
     for event in event_list:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
-            
+    
+    game.run(event_list)
+
     pygame.display.update()
     clock.tick(fps)

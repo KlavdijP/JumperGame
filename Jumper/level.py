@@ -1,5 +1,5 @@
 import pygame
-from player import Player
+from player import Player, Bullet
 from functions import *
 from platforms import Platform
 from enemies import EnemyAir
@@ -8,12 +8,16 @@ from settings import *
 from math import pow
 
 class Level:
-    def __init__(self, level_data, surface):
+    def __init__(self, level_data, surface, update_score):
         self.player = pygame.sprite.GroupSingle()
         self.display_surface = surface
         self.platforms = pygame.sprite.Group()
         self.enemyAir = pygame.sprite.Group()
-        self.score = 0
+        self.bullets = pygame.sprite.Group()
+
+        #UI
+        self.update_score = update_score
+
 
         self.setup_level()
 
@@ -27,7 +31,7 @@ class Level:
             if i != 0:
                 platform.generated = True
             self.platforms.add(platform)
-            self.score += 1
+            # self.update_score(1)
         self.enemyAir.add(EnemyAir(WIDTH/2, 0))
 
     # def horizontal_movement_collision(self):
@@ -52,6 +56,7 @@ class Level:
                         sprite.kill()
                     else:
                         player.jump()
+        
 
     def platform_speed(self):
         player = self.player.sprite
@@ -61,26 +66,41 @@ class Level:
         else:
             for sprite in self.platforms.sprites():
                 if player.direction.y < 0:
-                    sprite.speed = player.direction.y * -1 #pow(1.5, 10)
+                    sprite.speed = player.direction.y * -1
+
+    def platform_generate(self):
+        for sprite in self.platforms.sprites():
+            if sprite.rect.y > 100 and sprite.generated == False:
+                sprite.generated = True
+                self.platforms.add(Platform(randint(0, WIDTH-100), 0))
+                self.update_score(1)
+
+    def playerShootBullet(self, clickPos):
+        playerPos = self.player.sprite.position()
+        self.bullets.add(Bullet(playerPos,clickPos))
 
     def run(self, event_list):
         ##level platforms
-        self.display_surface.blit(load_image('bck.png', 500,800), (0,0))
+        self.display_surface.blit(load_image('bck.png', WIDTH,HEIGHT), (0,0))
 
         #player
         self.player.update(event_list)
         # self.horizontal_movement_collision()
         self.vertical_movement_collision()
 
+        #bullet
+        for event in event_list:
+            if event.type == pygame.MOUSEBUTTONUP:
+                pos = pygame.mouse.get_pos()
+                print(pos)
+                self.playerShootBullet(pos)
+        self.bullets.update()
+        self.bullets.draw(self.display_surface)
+
         #platforms
         self.platform_speed()
         #platform generator
-        for sprite in self.platforms.sprites():
-            if sprite.rect.y > 100 and sprite.generated == False:
-                sprite.generated = True
-                self.platforms.add(Platform(randint(0, WIDTH-100), 0))
-                self.score += 1
-
+        self.platform_generate()
         #platform update
         self.platforms.update()
         self.platforms.draw(self.display_surface)
