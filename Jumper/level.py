@@ -36,7 +36,7 @@ class Level:
                 platform.generated = True
             self.platforms.add(platform)
             self.last_type = platform.returnType()
-        self.enemyAir.add(EnemyAir(WIDTH/2, 0))
+        self.enemyAir.add(EnemyAir(WIDTH/2, randint(0+100, WIDTH-100)))
 
     # def horizontal_movement_collision(self):
     #     player = self.player.sprite
@@ -48,7 +48,7 @@ class Level:
     #             elif player.direction.x > 0: #moving right and colliding right
     #                 player.rect.right = sprite.rect.left
 
-    def vertical_movement_collision(self):
+    def collision_player_platform(self):
         player = self.player.sprite
         if player.direction.y >= 0:
             for sprite in self.platforms.sprites():
@@ -94,7 +94,7 @@ class Level:
         #player
         self.player.update(event_list)
         # self.horizontal_movement_collision()
-        self.vertical_movement_collision()
+        self.collision_player_platform()
 
         #bullet
         for event in event_list:
