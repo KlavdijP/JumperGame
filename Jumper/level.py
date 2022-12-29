@@ -87,6 +87,14 @@ class Level:
         playerPos = self.player.sprite.position()
         self.bullets.add(Bullet(playerPos,clickPos))
 
+    def collision_bullet_enemy(self):
+        for bullet in self.bullets.sprites():
+            for air in self.enemyAir.sprites():
+                if bullet.rect.colliderect(air.rect):
+                    bullet.kill()
+                    air.kill()
+                    print("Enemy je ubit")
+
     def run(self, event_list):
         ##level platforms
         self.display_surface.blit(load_image('bck.png', WIDTH,HEIGHT), (0,0))
@@ -100,10 +108,13 @@ class Level:
         for event in event_list:
             if event.type == pygame.MOUSEBUTTONUP:
                 pos = pygame.mouse.get_pos()
-                print(pos)
+                # print(pos)
                 self.playerShootBullet(pos)
         self.bullets.update()
         self.bullets.draw(self.display_surface)
+
+        #bullet collision enemy
+        self.collision_bullet_enemy()
 
         #platforms
         self.platform_speed()

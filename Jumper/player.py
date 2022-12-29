@@ -40,7 +40,7 @@ class Player(pygame.sprite.Sprite):
         self.direction = pygame.math.Vector2(0,0)
         self.speed = 8
         self.gravity = 0.4
-        self.jump_speed = -30
+        self.jump_speed = -15
         self.top_reached = False
 
     def get_input(self):

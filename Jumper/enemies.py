@@ -2,6 +2,8 @@ import pygame
 from functions import *
 from settings import *
 from math import sqrt, dist, atan2, sin, cos, pi
+from random import randint
+
 
 class EnemyAir(pygame.sprite.Sprite):
     def __init__(self, posx, posy):
@@ -10,6 +12,8 @@ class EnemyAir(pygame.sprite.Sprite):
         self.image = load_image('enemy-fly.png', 150, 100)
         self.rect = self.image.get_rect(topleft = (posx,posy-200)) ##Enemy spawns 200pixels before reaching top
         self.direction = pygame.math.Vector2(0,0)
+        self.rest_direction = self.get_direction()
+
         self.speed = 4
         
         self.detect = False
@@ -17,6 +21,13 @@ class EnemyAir(pygame.sprite.Sprite):
         self.returnPos = [0, 0]
         self.playerPos = [0, 0]
 
+    def get_direction(self):
+        rand = randint(0, 1)
+        if rand == 0:
+            return -1
+        else:
+            return 1
+        
     def pointTo(self, destination):
         v = pygame.math.Vector2(destination[0] - self.rect.x, destination[1] - self.rect.y)
         length = v.length()
@@ -28,6 +39,13 @@ class EnemyAir(pygame.sprite.Sprite):
 
         # print(self.direction.x, self.direction.y)
 
+    def move_left_right(self):
+        self.rect.x += self.speed * self.rest_direction
+        if self.rect.x < 0:
+            self.rest_direction = 1
+        elif self.rect.x > WIDTH:
+            self.rest_direction = -1
+
     def move(self):
         # angle = atan2(self.direction.x, self.direction.y)
         # x = cos(angle)
@@ -35,6 +53,7 @@ class EnemyAir(pygame.sprite.Sprite):
         # print(angle*180/pi, x, y)
         if self.detect == False and self.returnBack == False:
             self.rect.y += self.speed
+            self.move_left_right()
         else:
             self.rect.x += self.direction.x * self.speed
             self.rect.y += self.direction.y * self.speed

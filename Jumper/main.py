@@ -4,7 +4,7 @@ from functions import *
 from settings import *
 from level import Level
 from ui import UI
-from pause_menu import PauseMenu
+from menus import PauseMenu
 
 pygame.init()
 #GAME
@@ -16,9 +16,10 @@ class Game:
         self.score = 0
         self.level = Level(0,screen, self.update_score)
         self.ui = UI(screen)
-        self.pause_menu = PauseMenu(screen)
+        # self.start_menu = StartMenu(screen, self.change_status)
+        self.pause_menu = PauseMenu(screen, self.change_status)
 
-        self.font = pygame.font.Font("./fonts/rexlia_rg.otf", 30)        #Score
+        self.font = pygame.font.Font("./fonts/rexlia_rg.otf", 30)
 
     def run(self, event_list):
         for event in event_list:
@@ -27,15 +28,17 @@ class Game:
                     self.status="pause"
                 elif event.key == pygame.K_p and self.status == "pause":
                     self.status="ingame"
-        
         if self.status == "ingame":
             self.level.run(event_list)
             self.ui.show_score(self.score)
         elif self.status == "pause":
-            self.pause_menu.show_pause_menu()
+            self.pause_menu.show_pause_menu(event_list)
 
     def update_score(self, amount):
         self.score += amount
+
+    def change_status(self, new_status):
+        self.status = new_status
 
 screen = pygame.display.set_mode((WIDTH,HEIGHT))
 clock = pygame.time.Clock()
