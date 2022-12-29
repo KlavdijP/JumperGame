@@ -21,3 +21,4 @@ Platform generation
 Bullet kindof done
 Kontrolni elementi grafičnega uporabniškega vmesnika (3x5*)
     1. Score
+    
