@@ -15,11 +15,11 @@ class Platform(pygame.sprite.Sprite):
         ###
         self.type = self.giveType()
         if self.type == 1:
-            self.image = load_image('normal-block.png', 75,20)
+            self.image = load_image('normal-block', 75,20)
         elif self.type == 2:
-            self.image = load_image('cloud-block.png', 75,20)
+            self.image = load_image('cloud-block', 75,20)
         else:
-            self.image = load_image('break-block.png', 75,20)
+            self.image = load_image('break-block', 75,20)
         self.rect = self.image.get_rect(topleft = (posx, posy))
 
         self.speed = 0

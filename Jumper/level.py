@@ -15,6 +15,9 @@ class Level:
         self.enemyAir = pygame.sprite.Group()
         self.bullets = pygame.sprite.Group()
 
+        #Audio
+        self.enemy_dies = pygame.mixer.Sound("./audio/enemy_dies.wav")
+
         #UI
         self.update_score = update_score
 
@@ -38,16 +41,6 @@ class Level:
             self.last_type = platform.returnType()
         self.enemyAir.add(EnemyAir(WIDTH/2, randint(0+100, WIDTH-100)))
 
-    # def horizontal_movement_collision(self):
-    #     player = self.player.sprite
-    #     pass
-    #     for sprite in self.platforms.sprites():
-    #         if sprite.rect.colliderect(player.rect):
-    #             if player.direction.x < 0: #moving left and colliding left
-    #                 player.rect.left = sprite.rect.right
-    #             elif player.direction.x > 0: #moving right and colliding right
-    #                 player.rect.right = sprite.rect.left
-
     def collision_player_platform(self):
         player = self.player.sprite
         if player.direction.y >= 0:
@@ -61,7 +54,6 @@ class Level:
                     else:
                         player.jump()
         
-
     def platform_speed(self):
         player = self.player.sprite
         if player.rect.y > HEIGHT/2:
@@ -92,12 +84,13 @@ class Level:
             for air in self.enemyAir.sprites():
                 if bullet.rect.colliderect(air.rect):
                     bullet.kill()
+                    self.enemy_dies.play()
                     air.kill()
                     print("Enemy je ubit")
 
     def run(self, event_list):
         ##level platforms
-        self.display_surface.blit(load_image('bck.png', WIDTH,HEIGHT), (0,0))
+        self.display_surface.blit(load_image('bck', WIDTH,HEIGHT), (0,0))
 
         #player
         self.player.update(event_list)
@@ -108,25 +101,25 @@ class Level:
         for event in event_list:
             if event.type == pygame.MOUSEBUTTONUP:
                 pos = pygame.mouse.get_pos()
-                # print(pos)
                 self.playerShootBullet(pos)
         self.bullets.update()
         self.bullets.draw(self.display_surface)
 
-        #bullet collision enemy
-        self.collision_bullet_enemy()
-
-        #platforms
-        self.platform_speed()
         #platform generator
         self.platform_generate()
+        #platforms
+        self.platform_speed()
         #platform update
         self.platforms.update()
         self.platforms.draw(self.display_surface)
+        
+        #bullet collision enemy
+        self.collision_bullet_enemy()
 
         #enemy update
         self.enemyAir.update(self.player.sprite)
         self.enemyAir.draw(self.display_surface)
+
 
         #player draw
         self.player.draw(self.display_surface)

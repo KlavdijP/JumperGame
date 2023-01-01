@@ -1,24 +1,44 @@
-# TINR GAME
-
-## TODO
+# TODO
 Sound
+    Background music
+    Enemy flying
+    Platform break
 
 Animations
 
-New images, template
-
-Enemies
+New images, template, theme
 
 Meniji (3x5*)
 
+    Pause menu edit
+    Start menu
+    Settings menu
+
 Progression
-    Difficulty will increase over time
-    Perhaps other landscapes
+<!-- 
+Level 1: Normal blocks no enemies
+Level 2: Normal blocks enemies
+Level 3: All blocks enemies
+-->
+
+# IN PROGRESS
 
 
-## DONE
+# DONE
+Enemies Upgrade enemy to odzivni agent s stanji Update stanja enemyAir
+
 Platform generation
-Bullet kindof done
+
+Bullet
+
+name changes
+
+Shooting Projectile In clicked direction | upwards
+
 Kontrolni elementi grafičnega uporabniškega vmesnika (3x5*)
-    1. Score
-    
+    1. Score 
+
+1.1.2023 - Sound
+    Jump
+    Laser shoot
+    Enemy dies

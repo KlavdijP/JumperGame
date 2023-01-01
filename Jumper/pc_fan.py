@@ -7,7 +7,7 @@ class PCFan(pygame.sprite.Sprite):
     def __init__(self, posx, posy):
         super().__init__()
         self.image = pygame.Surface((50, 50))
-        self.image = load_image('enemy-fly.png', 150, 100)
+        self.image = load_image('enemy-fly', 150, 100)
         self.rect = self.image.get_rect(topleft = (posx,posy-200)) ##Enemy spawns 200pixels before reaching top
         self.direction = pygame.math.Vector2(0,0)
         self.speed = 4
