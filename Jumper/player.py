@@ -3,22 +3,19 @@ from functions import *
 from settings import *
 
 class Bullet(pygame.sprite.Sprite):
-    def __init__(self, pos, clickPos):
+    def __init__(self, pos, clickPos, settings):
         super().__init__()
+        self.settings = settings
         self.image = pygame.Surface((10, 10))
         self.image.fill('red')
         self.rect = self.image.get_rect(center = pos)
         self.clickPos = clickPos
         self.speed = 10
         self.direction = pygame.math.Vector2(0,0)
-        #Audio
-        self.shoot = pygame.mixer.Sound("./audio/shoot.wav")
-        
         self.setDirection()
-
+        self.settings.player_shoot()
 
     def setDirection(self):
-        self.shoot.play()
         v = pygame.math.Vector2(self.clickPos[0] - self.rect.x, self.clickPos[1] - self.rect.y)
         length = v.length()
         if length != 0:
@@ -34,8 +31,9 @@ class Bullet(pygame.sprite.Sprite):
             self.kill()
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, posx, posy):
+    def __init__(self, posx, posy, settings):
         super().__init__()
+        self.settings = settings
         self.image = pygame.Surface((64, 64))
         self.image = load_image('lik-left', 75, 50)
         # self.image.fill('red')
@@ -69,7 +67,7 @@ class Player(pygame.sprite.Sprite):
     def jump(self):
         if self.direction.y >= 0:
             self.direction.y = self.jump_speed
-            self.jump_sound.play()
+            self.settings.player_jump()
 
     def position(self):
         return (self.rect.x, self.rect.y)

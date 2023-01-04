@@ -6,40 +6,46 @@ from enemies import EnemyAir
 from random import randint
 from settings import *
 from math import pow
+from ui import UI
 
 class Level:
-    def __init__(self, level_data, surface, update_score):
+    def __init__(self, surface, settings, change_status):
+        self.settings = settings
+        self.change_status = change_status
         self.player = pygame.sprite.GroupSingle()
         self.display_surface = surface
         self.platforms = pygame.sprite.Group()
         self.enemyAir = pygame.sprite.Group()
         self.bullets = pygame.sprite.Group()
-
+        self.score = 0
+        self.ui = UI(self.display_surface)
         #Audio
         self.enemy_dies = pygame.mixer.Sound("./audio/enemy_dies.wav")
 
         #UI
-        self.update_score = update_score
 
         #Platform
         self.last_type = 4 ##Last generated platform type
 
         self.setup_level()
 
+    def update_score(self, amount):
+        self.score += amount
+
     def setup_level(self):
-        player_sprite = Player(250,250)
+        player_sprite = Player(250,250, self.settings)
         self.player.add(player_sprite)
 
         #Platform creation
         for i in range(0, HEIGHT, 100):
-            platform = Platform(randint(0, WIDTH-100), i)
+            platform = Platform(randint(0, WIDTH-100), i, self.settings)
             while(platform.returnType() == 3 and self.last_type == 3):
-                platform = Platform(randint(0, WIDTH-100), i)
+                platform = Platform(randint(0, WIDTH-100), i, self.settings)
             if i != 0:
                 platform.generated = True
             self.platforms.add(platform)
             self.last_type = platform.returnType()
-        self.enemyAir.add(EnemyAir(WIDTH/2, randint(0+100, WIDTH-100)))
+        self.enemyAir.add(EnemyAir(WIDTH/2, randint(0+100, WIDTH-100), self.settings))
 
     def collision_player_platform(self):
         player = self.player.sprite
@@ -68,25 +74,34 @@ class Level:
         for sprite in self.platforms.sprites():
             if sprite.rect.y > 100 and sprite.generated == False:
                 sprite.generated = True
-                platform = Platform(randint(0, WIDTH-100), 0)
+                platform = Platform(randint(0, WIDTH-100), 0, self.settings)
                 while(platform.returnType() == 3 and self.last_type == 3):
-                    platform = Platform(randint(0, WIDTH-100), 0)
+                    platform = Platform(randint(0, WIDTH-100), 0, self.settings)
                 self.platforms.add(platform)
                 self.last_type = platform.returnType()
                 self.update_score(1)
 
     def playerShootBullet(self, clickPos):
         playerPos = self.player.sprite.position()
-        self.bullets.add(Bullet(playerPos,clickPos))
+        self.bullets.add(Bullet(playerPos,clickPos, self.settings))
 
     def collision_bullet_enemy(self):
         for bullet in self.bullets.sprites():
             for air in self.enemyAir.sprites():
                 if bullet.rect.colliderect(air.rect):
                     bullet.kill()
-                    self.enemy_dies.play()
+                    air.die()
                     air.kill()
                     print("Enemy je ubit")
+
+    def collision_player_enemies(self):
+        for air in self.enemyAir.sprites():
+            if air.rect.colliderect(self.player.sprite.rect):
+                self.end()
+
+    def end(self):
+        self.change_status("start_menu")
+        ##TODO save highscore
 
     def run(self, event_list):
         ##level platforms
@@ -112,10 +127,13 @@ class Level:
         #platform update
         self.platforms.update()
         self.platforms.draw(self.display_surface)
-        
+
+        #UI
+        self.ui.show_score(self.score)
+
         #bullet collision enemy
         self.collision_bullet_enemy()
-
+        self.collision_player_enemies()
         #enemy update
         self.enemyAir.update(self.player.sprite)
         self.enemyAir.draw(self.display_surface)

@@ -7,19 +7,18 @@ from ui import UI
 from menus import PauseMenu, StartMenu, SettingsMenuMenu, SettingsMenuPause
 
 pygame.init()
-#GAMEa
+#GAME
 
 class Game:
-    def __init__(self):
+    def __init__(self, settings):
         self.status = "start_menu"
-        
-        self.score = 0
-        self.level = Level(0,screen, self.update_score)
-        self.ui = UI(screen)
+        self.settings = settings
+        self.level = Level(screen, self.settings, self.change_status)
+
         self.start_menu = StartMenu(screen, self.change_status)
         self.pause_menu = PauseMenu(screen, self.change_status)
-        self.settings_menu_menu = SettingsMenuMenu(screen, self.change_status)
-        self.settings_menu_pause = SettingsMenuPause(screen, self.change_status)
+        self.settings_menu_menu = SettingsMenuMenu(screen, self.change_status, settings)
+        self.settings_menu_pause = SettingsMenuPause(screen, self.change_status, settings)
         
     def run(self, event_list):
         for event in event_list:
@@ -30,7 +29,6 @@ class Game:
                     self.status="play"
         if self.status == "play":
             self.level.run(event_list)
-            self.ui.show_score(self.score)
         elif self.status == "pause":
             self.pause_menu.show_menu(event_list)
         elif self.status == "start_menu":
@@ -43,20 +41,18 @@ class Game:
             self.new_game()
 
 
-    def update_score(self, amount):
-        self.score += amount
-
     def change_status(self, new_status):
         self.status = new_status
     
     def new_game(self):
-        self.score = 0
-        self.level = Level(0,screen, self.update_score)
+        # self.score = 0
+        self.level = Level(screen, self.settings, self.change_status)
         self.status = "play"
 
 screen = pygame.display.set_mode((WIDTH,HEIGHT))
 clock = pygame.time.Clock()
-game = Game()
+settings = Settings()
+game = Game(settings)
 pygame.display.set_caption("SKYFRIK")
 
 while True:

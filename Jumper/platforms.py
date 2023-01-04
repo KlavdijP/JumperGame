@@ -4,8 +4,9 @@ from random import randint
 from settings import *
 
 class Platform(pygame.sprite.Sprite):
-    def __init__(self, posx, posy):
+    def __init__(self, posx, posy, settings):
         super().__init__()
+        self.settings = settings
         self.image = pygame.Surface((50,50))
 
         ### TYPES

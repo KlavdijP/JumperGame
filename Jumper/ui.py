@@ -4,8 +4,6 @@ from settings import *
 class UI:
     def __init__(self, surface):
         self.display_surface = surface
-
-        self.score = 0
         self.font = pygame.font.Font("./fonts/rexlia_rg.otf", 30)
 
     def show_score(self, score):

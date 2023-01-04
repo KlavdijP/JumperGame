@@ -9,7 +9,6 @@ Animations
 New images, template, theme
 
 Meniji (3x5*)
-
     Pause menu edit
     Start menu
     Settings menu
