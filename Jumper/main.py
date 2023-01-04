@@ -40,7 +40,6 @@ class Game:
         elif self.status == "newgame":
             self.new_game()
 
-
     def change_status(self, new_status):
         self.status = new_status
     

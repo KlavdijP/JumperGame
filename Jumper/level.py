@@ -1,5 +1,5 @@
 import pygame
-from player import Player, Bullet
+from player import Player, Bullet, Shield
 from functions import *
 from platforms import Platform
 from enemies import EnemyAir
@@ -22,7 +22,7 @@ class Level:
         #Audio
         self.enemy_dies = pygame.mixer.Sound("./audio/enemy_dies.wav")
 
-        #UI
+        self.shield = None
 
         #Platform
         self.last_type = 4 ##Last generated platform type
@@ -117,6 +117,7 @@ class Level:
             if event.type == pygame.MOUSEBUTTONUP:
                 pos = pygame.mouse.get_pos()
                 self.playerShootBullet(pos)
+                self.shield = Shield(self.display_surface)
         self.bullets.update()
         self.bullets.draw(self.display_surface)
 
@@ -138,6 +139,7 @@ class Level:
         self.enemyAir.update(self.player.sprite)
         self.enemyAir.draw(self.display_surface)
 
-
+        if self.shield != None:
+            self.shield.update(self.player.sprite.rect.center)
         #player draw
         self.player.draw(self.display_surface)

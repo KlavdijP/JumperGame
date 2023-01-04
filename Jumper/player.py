@@ -38,7 +38,6 @@ class Player(pygame.sprite.Sprite):
         self.image = load_image('lik-left', 75, 50)
         # self.image.fill('red')
         self.rect = self.image.get_rect(center = (posx,posy))
-
         #Audio
         self.jump_sound = pygame.mixer.Sound("./audio/jump.wav")
 
@@ -98,3 +97,9 @@ class Player(pygame.sprite.Sprite):
         #         self.rect.x = pos[0]
         #         self.rect.y = pos[1]
         #         self.direction.y = 0
+
+class Shield():
+    def __init__(self,surface):
+        self.surface = surface
+    def update(self, pos):
+        pygame.draw.circle(self.surface,'yellow',pos, 60, 4)
