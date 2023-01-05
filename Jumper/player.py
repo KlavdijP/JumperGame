@@ -30,6 +30,12 @@ class Bullet(pygame.sprite.Sprite):
         if self.rect.x < 0 or self.rect.x > WIDTH or self.rect.y < 0 or self.rect.y > HEIGHT:
             self.kill()
 
+jumpimages = [
+    load_image('Player/player02', 50, 50),
+    load_image('Player/player03', 50, 50),
+    load_image('Player/player01', 50, 50)
+]
+
 class Player(pygame.sprite.Sprite):
     def __init__(self, posx, posy, settings):
         super().__init__()
@@ -74,9 +80,12 @@ class Player(pygame.sprite.Sprite):
             if self.direction.y >= 0:
                 self.direction.y = self.jump_speed
                 self.rect.bottom = top
-                self.image = load_image('Player/player02', 50, 50, True if self.looking_left else False)
-                self.image = load_image('Player/player03', 50, 50, True if self.looking_left else False)
-                self.image = load_image('Player/player01', 50, 50, True if self.looking_left else False)
+                # for i in range(0, 3):
+                #     image = jumpimages[i]
+                #     if self.looking_left:
+                #         self.image = pygame.transform.flip(image, True, False)
+                #     else:
+                #         self.image = image
                 self.settings.player_jump()
         else:
             self.direction.y = 0

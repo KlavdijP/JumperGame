@@ -12,12 +12,21 @@ fanimages = [
     load_image('./Fan/fan05', 100, 100)
 ]
 
+airimages = [
+    load_image('./EnemyAir/enemy01', 100, 100),
+    load_image('./EnemyAir/enemy02', 100, 100),
+    load_image('./EnemyAir/enemy03', 100, 100),
+    load_image('./EnemyAir/enemy04', 100, 100)
+]
+
+
 class EnemyAir(pygame.sprite.Sprite):
     def __init__(self, posx, posy, settings):
         super().__init__()
         self.settings = settings
         self.image = pygame.Surface((50, 50))
-        self.image = load_image('enemy-fly', 150, 100)
+        self.counter = 0
+        self.image = airimages[self.counter]
         self.rect = self.image.get_rect(topleft = (posx,posy-200)) ##Enemy spawns 200pixels before reaching top
         self.direction = pygame.math.Vector2(0,0)
         self.rest_direction = self.get_direction()
@@ -36,6 +45,12 @@ class EnemyAir(pygame.sprite.Sprite):
         else:
             return 1
         
+    def animate(self):
+        if self.counter > len(airimages)-1:
+            self.counter = 0
+        self.image = airimages[int(self.counter)]
+        self.counter += 0.1
+    
     def pointTo(self, destination):
         v = pygame.math.Vector2(destination[0] - self.rect.x, destination[1] - self.rect.y)
         length = v.length()
@@ -96,6 +111,8 @@ class EnemyAir(pygame.sprite.Sprite):
         if self.rect.y > HEIGHT+10:
             self.kill()
 
+        self.animate()
+
     def die(self):
         self.settings.enemy_air_die()
 
@@ -122,7 +139,7 @@ class PCFan(pygame.sprite.Sprite):
         self.image = fanimages[self.counter]
         self.counter += 1
 
-    def update(self):        
+    def update(self):
         self.move()
 
         if self.rect.y > HEIGHT+10:

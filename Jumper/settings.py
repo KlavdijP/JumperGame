@@ -45,7 +45,7 @@ class Settings:
     
     def enemy_fan(self):
         self.enemyFan.set_volume(self.sfx/1000)
-        self.enemyFan.play()
+        self.enemyFan.play(-1)
     
     def enemy_fan_stop(self):
         self.enemyFan.stop()
@@ -53,4 +53,3 @@ class Settings:
     def glass_break(self):
         self.glassBreak.set_volume(self.sfx/1000)
         self.glassBreak.play()
-    

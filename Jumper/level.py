@@ -56,6 +56,7 @@ class Level:
                 if sprite.rect.colliderect([player.rect.x, player.rect.y+50, 64, 1]):
                     if sprite.type == 3:
                         self.settings.glass_break()
+                        self.update_score(1)
                         sprite.kill()
                     elif sprite.type == 2:
                         player.jump(sprite.rect.top)
@@ -139,6 +140,8 @@ class Level:
 
         #player
         self.player.update(event_list)
+        if self.player.sprite.rect.y > HEIGHT:
+            self.end()
         # self.horizontal_movement_collision()
         self.collision_player_platform()
 
@@ -149,7 +152,6 @@ class Level:
                 self.playerShootBullet(pos)
                 # self.shield.add(Shield(self.player.sprite.position()))
         self.bullets.update()
-        self.bullets.draw(self.display_surface)
 
         #platform generator
         self.platform_generate()
@@ -183,4 +185,6 @@ class Level:
         self.pickups.update()
         self.pickups.draw(self.display_surface)
         #player draw
+        self.bullets.draw(self.display_surface)
         self.player.draw(self.display_surface)
+
