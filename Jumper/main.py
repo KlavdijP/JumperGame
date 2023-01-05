@@ -44,7 +44,6 @@ class Game:
         self.status = new_status
     
     def new_game(self):
-        # self.score = 0
         self.level = Level(screen, self.settings, self.change_status)
         self.status = "play"
 

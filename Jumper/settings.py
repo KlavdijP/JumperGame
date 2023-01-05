@@ -7,7 +7,13 @@ import pygame
 class Settings:
     def __init__(self):
         self.music = 100
-        self.sfx = 10
+        self.sfx = 100
+
+        self.enemyAirDie = pygame.mixer.Sound("./audio/enemy_dies.wav")
+        self.playerJump = pygame.mixer.Sound("./audio/jump.wav")
+        self.playerShoot = pygame.mixer.Sound("./audio/shoot.wav")
+        self.enemyFan = pygame.mixer.Sound("./audio/fan.wav")
+        self.glassBreak = pygame.mixer.Sound("./audio/glass_breaks.wav")
 
     def set_music(self, volume):
         self.music += volume
@@ -26,16 +32,25 @@ class Settings:
         print(self.sfx)
 
     def enemy_air_die(self):
-        sound = pygame.mixer.Sound("./audio/enemy_dies.wav")
-        sound.set_volume(self.sfx/1000)
-        sound.play()
+        self.enemyAirDie.set_volume(self.sfx/1000)
+        self.enemyAirDie.play()
     
     def player_jump(self):
-        sound = pygame.mixer.Sound("./audio/jump.wav")
-        sound.set_volume(self.sfx/1000)
-        sound.play()
+        self.playerJump.set_volume(self.sfx/1000)
+        self.playerJump.play()
     
     def player_shoot(self):
-        sound = pygame.mixer.Sound("./audio/shoot.wav")
-        sound.set_volume(self.sfx/1000)
-        sound.play()
+        self.playerShoot.set_volume(self.sfx/1000)
+        self.playerShoot.play()
+    
+    def enemy_fan(self):
+        self.enemyFan.set_volume(self.sfx/1000)
+        self.enemyFan.play()
+    
+    def enemy_fan_stop(self):
+        self.enemyFan.stop()
+
+    def glass_break(self):
+        self.glassBreak.set_volume(self.sfx/1000)
+        self.glassBreak.play()
+    

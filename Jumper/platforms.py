@@ -3,6 +3,10 @@ from functions import *
 from random import randint
 from settings import *
 
+glass_block = load_image('glass-block', 75,20)
+segment_block = load_image('segment-block', 75,20)
+cable_block = load_image('cable-block', 75,20)
+
 class Platform(pygame.sprite.Sprite):
     def __init__(self, posx, posy, settings):
         super().__init__()
@@ -16,11 +20,11 @@ class Platform(pygame.sprite.Sprite):
         ###
         self.type = self.giveType()
         if self.type == 1:
-            self.image = load_image('normal-block', 75,20)
+            self.image = cable_block
         elif self.type == 2:
-            self.image = load_image('cloud-block', 75,20)
+            self.image = segment_block
         else:
-            self.image = load_image('break-block', 75,20)
+            self.image = glass_block
         self.rect = self.image.get_rect(topleft = (posx, posy))
 
         self.speed = 0
