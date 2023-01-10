@@ -60,6 +60,7 @@ class Level:
                         sprite.kill()
                     elif sprite.type == 2:
                         player.jump(sprite.rect.top)
+                        self.update_score(1)
                         sprite.kill()
                     else:
                         player.jump(sprite.rect.top)
@@ -131,8 +132,10 @@ class Level:
                 self.shield.add(Shield(self.player.sprite.position()))
 
     def end(self):
+        high_score = read_file("high_score.txt")
+        if self.score > int(high_score):
+            write_file("high_score.txt", self.score)
         self.change_status("start_menu")
-        ##TODO save highscore
 
     def run(self, event_list):
         ##level platforms

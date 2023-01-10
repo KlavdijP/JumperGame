@@ -39,9 +39,14 @@ class Game:
             self.settings_menu_pause.show_menu(event_list)
         elif self.status == "newgame":
             self.new_game()
+        elif self.status == "exit":
+            pygame.quit()
+            sys.exit()
 
     def change_status(self, new_status):
         self.status = new_status
+        if self.status == "start_menu":
+            self.start_menu.update_score()
     
     def new_game(self):
         self.level = Level(screen, self.settings, self.change_status)

@@ -45,7 +45,7 @@ class Settings:
     
     def enemy_fan(self):
         self.enemyFan.set_volume(self.sfx/1000)
-        self.enemyFan.play(-1)
+        self.enemyFan.play()
     
     def enemy_fan_stop(self):
         self.enemyFan.stop()
