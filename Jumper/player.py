@@ -52,7 +52,6 @@ class Player(pygame.sprite.Sprite):
         self.jump_speed = -15
         self.top_reached = False
         self.looking_left = False # True:Left, False:Right
-        self.auto_jump = True
 
     def get_input(self):
         keys = pygame.key.get_pressed()
@@ -76,20 +75,16 @@ class Player(pygame.sprite.Sprite):
         self.rect.y += self.direction.y
 
     def jump(self, top):
-        if self.auto_jump:
-            if self.direction.y >= 0:
-                self.direction.y = self.jump_speed
-                self.rect.bottom = top
-                # for i in range(0, 3):
-                #     image = jumpimages[i]
-                #     if self.looking_left:
-                #         self.image = pygame.transform.flip(image, True, False)
-                #     else:
-                #         self.image = image
-                self.settings.player_jump()
-        else:
-            self.direction.y = 0
+        if self.direction.y >= 0:
+            self.direction.y = self.jump_speed
             self.rect.bottom = top
+            # for i in range(0, 3):
+            #     image = jumpimages[i]
+            #     if self.looking_left:
+            #         self.image = pygame.transform.flip(image, True, False)
+            #     else:
+            #         self.image = image
+            self.settings.player_jump()
 
     def position(self):
         return (self.rect.x, self.rect.y)
@@ -101,7 +96,7 @@ class Player(pygame.sprite.Sprite):
         #movement
         self.rect.x += self.direction.x * self.speed 
 
-        if self.rect.y < HEIGHT/2:
+        if self.rect.y <= HEIGHT/2:
             self.rect.y = HEIGHT/2
             self.top_reached = True
         else:

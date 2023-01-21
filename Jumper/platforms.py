@@ -8,11 +8,11 @@ segment_block = load_image('segment-block', 75,20)
 cable_block = load_image('cable-block', 75,20)
 
 class Platform(pygame.sprite.Sprite):
-    def __init__(self, posx, posy, settings):
+    def __init__(self, posx, posy, settings, difficulty):
         super().__init__()
         self.settings = settings
         self.image = pygame.Surface((50,50))
-
+        self.difficulty = difficulty
         ### TYPES
         #   1- Normal
         #   2- Dissapears after jumped on
@@ -34,13 +34,30 @@ class Platform(pygame.sprite.Sprite):
         return self.type
         
     def giveType(self):
-        n = 1000
-        randType = randint(0, 1000)
-        if randType < 750:
+        arr = [] # [n, step1, step2]
+        if self.difficulty == "intermediate":
+            arr = [1000, 50, 800]
+
+        elif self.difficulty == "very_hard":
+            arr = [1000, 400, 900]
+
+        elif self.difficulty == "hard":
+            arr = [1000, 800, 950]
+
+        elif self.difficulty == "medium":
+            arr = [1000, 950, 1000]
+
+        elif self.difficulty == "easy":
+            arr = [1, 2, 0]
+        
+        randType = randint(0, arr[0])
+        if randType < arr[1]:
+            print(randType)
             return 1
-        elif randType >= 750 and randType < 900:
+        elif randType >= arr[1] and randType < arr[2]:
             return 2
         else:
+            print(randType)
             return 3
 
     def update(self):
