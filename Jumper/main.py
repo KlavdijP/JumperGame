@@ -4,7 +4,7 @@ from functions import *
 from settings import *
 from level import Level
 from ui import UI
-from menus import PauseMenu, StartMenu, SettingsMenuMenu, SettingsMenuPause
+from menus import PauseMenu, StartMenu, SettingsMenuMenu, SettingsMenuPause, ShopMenu
 
 pygame.init()
 #GAME
@@ -17,6 +17,7 @@ class Game:
         self.level = Level(screen, self.settings, self.change_status)
         self.new_player()
         self.start_menu = StartMenu(screen, self.change_status)
+        self.shop_menu = ShopMenu(screen, self.change_status)
         self.pause_menu = PauseMenu(screen, self.change_status)
         self.settings_menu_menu = SettingsMenuMenu(screen, self.change_status, settings)
         self.settings_menu_pause = SettingsMenuPause(screen, self.change_status, settings)
@@ -43,6 +44,9 @@ class Game:
             self.start_menu.show_menu(event_list)
         elif self.status == "settings_menu":
             self.settings_menu_menu.show_menu(event_list)
+        elif self.status == "shop_menu":
+            self.shop_menu.update()
+            self.shop_menu.show_menu(event_list)
         elif self.status == "settings_pause":
             self.settings_menu_pause.show_menu(event_list)
         elif self.status == "newgame":

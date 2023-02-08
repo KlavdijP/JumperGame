@@ -44,6 +44,13 @@ def create_new_json():
         "high_score": 0,
         "rigs" : 0,
         "microchips": 0,
+        "money": 0,
+        "gpus": 0,
+        "mbs": 0,
+        "psus": 0,
+        "fans": 0,
+        "cpus": 0,
+        "frames": 0,
     }
     with open(filepath, "w") as f:
         json.dump(dictionary, f)
@@ -57,10 +64,10 @@ def update_high_score(score):
         with open(filepath, "w") as f:
             f.write(json_object)
 
-def update_microchips(amount):
+def update_stock(item, amount):
     filepath = "data.json"
     data = return_json_data()
-    data["microchips"] += amount
+    data[item] += amount
     json_object = json.dumps(data)
     with open(filepath, "w") as f:
         f.write(json_object)

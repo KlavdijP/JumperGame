@@ -157,6 +157,7 @@ class Level:
                     self.shield.add(Shield(self.player.sprite.position()))
                 elif type == "microchip":
                     self.microchips += 1
+                    print("aa")
                 pickup.kill()
 
     def end(self):
@@ -164,7 +165,8 @@ class Level:
         # if self.score > int(high_score):
         #     write_file("high_score.txt", self.score)
         update_high_score(self.score)
-        update_microchips(self.microchips)
+        update_stock("microchips", self.microchips)
+        self.microchips = 0
         self.change_status("start_menu")
 
     def spawn_air(self):
