@@ -11,16 +11,25 @@ pygame.init()
 
 class Game:
     def __init__(self, settings):
+        self.player_name = ""
         self.status = "start_menu"
         self.settings = settings
         self.level = Level(screen, self.settings, self.change_status)
-
+        self.new_player()
         self.start_menu = StartMenu(screen, self.change_status)
         self.pause_menu = PauseMenu(screen, self.change_status)
         self.settings_menu_menu = SettingsMenuMenu(screen, self.change_status, settings)
         self.settings_menu_pause = SettingsMenuPause(screen, self.change_status, settings)
+    
+    def new_player(self):
+        
+        return_json_data()
         
     def run(self, event_list):
+        ## MINING BITCOIN
+        # Rigs running at all time
+
+
         for event in event_list:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p and self.status == "play":

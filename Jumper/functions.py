@@ -1,4 +1,6 @@
 import pygame
+import os
+import json
 
 def load_image(src, sc1, sc2, flipped=False):
     if flipped:
@@ -19,7 +21,31 @@ def read_file(src):
             file.write("0")
             print("file created")
             return "0"
+
 def write_file(src, text):
     with open(src, "w+") as file:
         file.write(str(text))
         print("Writing in file: %s", text)
+
+
+def return_json_data():
+    filepath = "data.json"
+    if os.path.exists(filepath):
+        f = open(filepath)
+        data = json.load(f)
+        return data
+    else:
+        create_new_json()
+        return_json_data()
+
+def create_new_json():
+    filepath = "data.json"
+    dictionary = {
+        "player_name": "SKYFRIK",
+        "score": 0,
+        "high_score": 0,
+        "rigs" : 0,
+        "microchips": 0,
+    }
+    with open(filepath, "w") as f:
+        json.dump(dictionary, f)

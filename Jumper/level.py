@@ -98,7 +98,7 @@ class Level:
                     platform = Platform(randint(0, WIDTH-100), 0, self.settings, self.difficulty)
                 spawn_shield = randint(0, 1000)
                 if spawn_shield < 50:
-                    self.pickups.add(Pickups(platform.rect.x, platform.rect.y-75))
+                    self.pickups.add(Pickups(platform.rect.x, platform.rect.y-75, "shield"))
                 self.platforms.add(platform)
                 self.last_type = platform.returnType()
                 self.update_score(1)
