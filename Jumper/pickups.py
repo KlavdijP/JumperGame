@@ -7,8 +7,11 @@ class Pickups(pygame.sprite.Sprite):
     def __init__(self, posx, posy, type):
         super().__init__()
         self.image = pygame.Surface((75,75))
-        if type == "shield":
+        self.type = type
+        if self.type == "shield":
             self.image = load_image('binary-shield', 75, 75)
+        elif self.type == "microchip":
+            self.image = load_image('enemy-fly', 50, 50)
         self.rect = self.image.get_rect(topleft = (posx, posy))
         self.speed = 0
     
@@ -17,3 +20,6 @@ class Pickups(pygame.sprite.Sprite):
 
         if self.rect.y >= HEIGHT+50:
             self.kill()
+    
+    def return_type(self):
+        return self.type

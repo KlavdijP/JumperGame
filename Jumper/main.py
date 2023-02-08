@@ -22,13 +22,11 @@ class Game:
         self.settings_menu_pause = SettingsMenuPause(screen, self.change_status, settings)
     
     def new_player(self):
-        
         return_json_data()
         
-    def run(self, event_list):
+    def run(self, event_list): 
         ## MINING BITCOIN
         # Rigs running at all time
-
 
         for event in event_list:
             if event.type == pygame.KEYDOWN:
@@ -41,6 +39,7 @@ class Game:
         elif self.status == "pause":
             self.pause_menu.show_menu(event_list)
         elif self.status == "start_menu":
+            self.level.end()
             self.start_menu.show_menu(event_list)
         elif self.status == "settings_menu":
             self.settings_menu_menu.show_menu(event_list)

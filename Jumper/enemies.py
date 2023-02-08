@@ -19,6 +19,10 @@ airimages = [
     load_image('./EnemyAir/enemy04', 100, 100)
 ]
 
+bouncerimages = [
+    load_image('./Bouncer/bouncer01', 100, 100),
+]
+
 
 class EnemyAir(pygame.sprite.Sprite):
     def __init__(self, posx, posy, settings):
@@ -147,4 +151,44 @@ class PCFan(pygame.sprite.Sprite):
             self.kill()
         
         #Animation
+        self.animate()
+
+class Bouncer(pygame.sprite.Sprite):
+    def __init__(self, posx, posy, settings):
+        super().__init__()
+        self.settings = settings
+        self.image = pygame.Surface((50, 50))
+        self.counter = 0
+        self.image = bouncerimages[self.counter]
+        self.rect = self.image.get_rect(topleft = (posx,posy-200)) ##Enemy spawns 200pixels before reaching top
+        self.direction = pygame.math.Vector2(0,1)
+        self.rest_direction = self.get_direction()
+
+        self.speed = 4
+    def get_direction(self):
+        rand = randint(0, 1)
+        if rand == 0:
+            return -1
+        else:
+            return 1
+        
+    def animate(self):
+        if self.counter > len(bouncerimages)-1:
+            self.counter = 0
+        self.image = bouncerimages[int(self.counter)]
+        self.counter += 0.1
+    
+    def move(self):
+        self.rect.x += self.speed * self.rest_direction
+        self.rect.y += self.direction.y * self.speed
+        if self.rect.x < 0:
+            self.rest_direction = 1
+        elif self.rect.x > WIDTH:
+            self.rest_direction = -1
+
+
+    def update(self):
+        self.move()
+        if self.rect.y > HEIGHT+10:
+            self.kill()
         self.animate()
