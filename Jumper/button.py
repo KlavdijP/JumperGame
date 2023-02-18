@@ -2,7 +2,7 @@ import pygame
 from settings import *
 
 class Button(pygame.sprite.Sprite):
-    def __init__(self, pos, surface, type, displayed="", metrics = (300,80)):
+    def __init__(self, pos, surface, type, displayed="", metrics = (300,80), fontsize=30):
         super().__init__()
         if displayed == "":
             self.displayed = type
@@ -15,7 +15,7 @@ class Button(pygame.sprite.Sprite):
         self.image.fill('red')
         self.rect = self.image.get_rect(center = pos)
 
-        self.font = pygame.font.Font("./fonts/rexlia_rg.otf", 30)
+        self.font = pygame.font.Font("./fonts/rexlia_rg.otf", fontsize)
         self.text = self.font.render(str(self.displayed), False, "#53f53f")
         self.text_rect = self.text.get_rect(center = self.rect.center)
 

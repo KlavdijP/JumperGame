@@ -3,7 +3,7 @@ from player import Player, Bullet, Shield
 from pickups import Pickups
 from functions import *
 from platforms import Platform
-from enemies import EnemyAir, PCFan
+from enemies import EnemyAir, PCFan, Bouncer
 from random import randint
 from settings import *
 from math import pow
@@ -20,9 +20,11 @@ class Level:
         self.platforms = pygame.sprite.Group()
         self.enemyAir = pygame.sprite.GroupSingle()
         self.enemyFan = pygame.sprite.GroupSingle()
+        self.enemyBouncer = pygame.sprite.GroupSingle()
         self.lastenemy = 0
         self.bullets = pygame.sprite.Group()
         self.score = 0
+        self.microchips = 0
         self.difficulty = "easy"
         self.ui = UI(self.display_surface)
         self.shield = pygame.sprite.GroupSingle()
@@ -96,9 +98,16 @@ class Level:
                 platform = Platform(randint(0, WIDTH-100), 0, self.settings, self.difficulty)
                 while(platform.returnType() == 3 and self.last_type == 3):
                     platform = Platform(randint(0, WIDTH-100), 0, self.settings, self.difficulty)
+                
+                #Shield generate
                 spawn_shield = randint(0, 1000)
                 if spawn_shield < 50:
                     self.pickups.add(Pickups(platform.rect.x, platform.rect.y-75, "shield"))
+                
+                #Microchip generate
+                spawn_microchip = randint(0,1000)
+                if spawn_microchip < 50:
+                    self.pickups.add(Pickups(randint(0 + 20, WIDTH - 20), platform.rect.y-20, "microchip"))
                 self.platforms.add(platform)
                 self.last_type = platform.returnType()
                 self.update_score(1)
@@ -115,7 +124,12 @@ class Level:
                     bullet.kill()
                     air.die()
                     air.kill()
-                    print("Enemy je ubit")
+                    print("Enemy air je ubit")
+            for bouncer in self.enemyBouncer.sprites():
+                if bullet.rect.colliderect(bouncer.rect):
+                    bullet.kill()
+                    bouncer.kill()
+                    print("Enemy bouncer je ubit")
 
     def collision_player_objects(self):
         #Player touches enemy air
@@ -128,17 +142,31 @@ class Level:
             if pygame.sprite.collide_mask(fan, self.player.sprite): #air.rect.colliderect(self.player.sprite.rect):
                 if len(self.shield.sprites()) == 0:
                     self.end()
+
+        #Player touches enemy bouncer
+        for bouncer in self.enemyBouncer.sprites():
+            if pygame.sprite.collide_mask(bouncer, self.player.sprite): #air.rect.colliderect(self.player.sprite.rect):
+                if len(self.shield.sprites()) == 0:
+                    self.end()
         
         #Player touches pickup
         for pickup in self.pickups.sprites():
             if pickup.rect.colliderect(self.player.sprite.rect):
+                type = pickup.return_type() 
+                if type == "shield":
+                    self.shield.add(Shield(self.player.sprite.position()))
+                elif type == "microchip":
+                    self.microchips += 1
+                    print("aa")
                 pickup.kill()
-                self.shield.add(Shield(self.player.sprite.position()))
 
     def end(self):
-        high_score = read_file("high_score.txt")
-        if self.score > int(high_score):
-            write_file("high_score.txt", self.score)
+        # high_score = read_file("high_score.txt")
+        # if self.score > int(high_score):
+        #     write_file("high_score.txt", self.score)
+        update_high_score(self.score)
+        update_stock("microchips", self.microchips)
+        self.microchips = 0
         self.change_status("start_menu")
 
     def spawn_air(self):
@@ -153,6 +181,11 @@ class Level:
             while abs(coord_x - last_x) < 100:
                 coord_x = randint(0+100, WIDTH-100)
             self.enemyFan.add(PCFan(coord_x, -50, self.settings))
+            self.lastenemy = self.score
+    
+    def spawn_bouncer(self):
+        if len(self.enemyBouncer) == 0 and (self.score - self.lastenemy) > 15:
+            self.enemyBouncer.add(Bouncer(randint(0+100, WIDTH-100), -50, self.settings))
             self.lastenemy = self.score
 
     def enemy_generate(self):
@@ -172,10 +205,19 @@ class Level:
         if randType < arr[1]:
             return
         elif randType >= arr[1]:
-            if (arr[0] - randType) > (arr[0] - arr[1])/2:
-                self.spawn_air()
-            else:
-                self.spawn_fan()
+            self.spawn_bouncer()
+            # tmp = randint(0, 3)
+            # if tmp == 0:
+            #     self.spawn_bouncer()
+            # elif tmp == 1:
+            #     self.spawn_air()
+            # elif tmp == 2:
+            #     self.spawn_fan()
+
+            # if (arr[0] - randType) > (arr[0] - arr[1])/2:
+            #     self.spawn_air()
+            # else:
+            #     self.spawn_fan()
 
     def set_difficulty(self):
         if self.score <= 20:
@@ -214,6 +256,9 @@ class Level:
         ## EnemyFan
         self.enemyFan.update()
         self.enemyFan.draw(self.display_surface)
+        ## EnemyBouncer
+        self.enemyBouncer.update()
+        self.enemyBouncer.draw(self.display_surface)
 
         #PICKUPS
         ## Shield
