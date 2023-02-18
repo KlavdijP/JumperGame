@@ -61,7 +61,8 @@ class Game:
         self.level = Level(screen, self.settings, self.change_status)
         self.status = "play"
 
-screen = pygame.display.set_mode((WIDTH,HEIGHT))
+display = pygame.display.set_mode((WIDTH, HEIGHT))#, pygame.RESIZABLE)
+screen = pygame.Surface((WIDTH, HEIGHT))
 clock = pygame.time.Clock()
 settings = Settings()
 game = Game(settings)
@@ -76,5 +77,6 @@ while True:
     
     game.run(event_list)
 
+    display.blit(pygame.transform.scale(screen, (display.get_width(), display.get_height())), (0, 0))
     pygame.display.update()
     clock.tick(fps)
