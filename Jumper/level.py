@@ -29,6 +29,11 @@ class Level:
         self.ui = UI(self.display_surface)
         self.shield = pygame.sprite.GroupSingle()
         self.pickups = pygame.sprite.Group()
+        self.width = 1
+        self.height = 1
+
+        #Background
+        self.bck_scroll = 0
         #Platform
         self.last_type = 4 ##Last generated platform type
 
@@ -38,7 +43,7 @@ class Level:
         self.score += amount
         if self.score < 162:
             self.set_difficulty()
-            print(self.score, self.difficulty)
+            #print(self.score, self.difficulty)
         self.enemy_generate()
 
     def setup_level(self):
@@ -75,10 +80,9 @@ class Level:
         for sprite in object.sprites():
             sprite.speed = 0
 
-    def move_object(self, object, player):
+    def move_object(self, object, speed):
         for sprite in object.sprites():
-            if player.direction.y < 0:
-                sprite.speed = player.direction.y * -1
+            sprite.speed = speed
 
     def objects_speed(self):
         player = self.player.sprite
@@ -87,9 +91,13 @@ class Level:
             self.stop_object(self.pickups)
             self.stop_object(self.enemyFan)
         else:
-            self.move_object(self.platforms, player)
-            self.move_object(self.pickups, player)
-            self.move_object(self.enemyFan, player)
+            if player.direction.y < 0:
+                speed = player.direction.y * -1
+                self.move_object(self.platforms, speed)
+                self.move_object(self.pickups, speed)
+                self.move_object(self.enemyFan, speed)
+
+                self.bck_scroll += speed
 
     def platform_generate(self):
         for sprite in self.platforms.sprites():
@@ -114,7 +122,7 @@ class Level:
 
     def playerShootBullet(self, clickPos):
         playerPos = self.player.sprite.position()
-        playerPos = (playerPos[0]+25, playerPos[1]+25)
+        playerPos = ((playerPos[0])/self.width, (playerPos[1])/self.height)
         self.bullets.add(Bullet(playerPos,clickPos, self.settings))
 
     def collision_bullet_enemy(self):
@@ -231,9 +239,14 @@ class Level:
         elif self.score > 160:
             self.difficulty = "intermediate"
 
-    def run(self, event_list):
-        self.display_surface.blit(background, (0,0))
+    def draw_background(self, scroll):
+        self.display_surface.blit(background, (0, 0 + scroll))
+        self.display_surface.blit(background, (0, -1*HEIGHT + scroll))
 
+    def run(self, event_list):
+        if self.bck_scroll >= HEIGHT:
+            self.bck_scroll = 0
+        self.draw_background(self.bck_scroll)
         #player
         self.player.update(event_list)
         if self.player.sprite.rect.y > HEIGHT:
@@ -272,9 +285,15 @@ class Level:
         self.collision_player_objects()
 
         #bullet
+
         for event in event_list:
+            if event.type == pygame.VIDEORESIZE:
+                self.width = WIDTH/event.w
+                self.height = HEIGHT/event.h
             if event.type == pygame.MOUSEBUTTONUP:
                 pos = pygame.mouse.get_pos()
+                print(pos, self.player.sprite.position()[0]/self.width, self.player.sprite.position()[1]/self.height)
+                print(self.width, self.height)
                 self.playerShootBullet(pos)
                 # self.shield.add(Shield(self.player.sprite.position()))
         self.bullets.update()

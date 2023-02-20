@@ -64,7 +64,7 @@ class Game:
         self.level = Level(screen, self.settings, self.change_status)
         self.status = "play"
 
-display = pygame.display.set_mode((WIDTH, HEIGHT))#, pygame.RESIZABLE)
+display = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
 screen = pygame.Surface((WIDTH, HEIGHT))
 clock = pygame.time.Clock()
 settings = Settings()
@@ -77,7 +77,6 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
-    
     game.run(event_list)
 
     display.blit(pygame.transform.scale(screen, (display.get_width(), display.get_height())), (0, 0))
