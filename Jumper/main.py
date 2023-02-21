@@ -6,6 +6,7 @@ from level import Level
 from ui import UI
 from menus import PauseMenu, StartMenu, SettingsMenuMenu, SettingsMenuPause, ShopMenu
 
+
 pygame.init()
 #GAME
 
@@ -28,7 +29,6 @@ class Game:
     def run(self, event_list): 
         ## MINING BITCOIN
         # Rigs running at all time
-
         for event in event_list:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p and self.status == "play":

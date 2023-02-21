@@ -19,15 +19,15 @@ class PauseMenu:
         self.change_status = change_status
         self.buttons = pygame.sprite.Group()
 
-        self.buttons.add(Button((WIDTH/2, HEIGHT/10 * 2), self.display_surface, "play", "RESUME")) #Add unpause button
-        self.buttons.add(Button((WIDTH/2, HEIGHT/10 * 4), self.display_surface, "start_menu", "MAIN MENU")) #Add unpause button
-        self.buttons.add(Button((WIDTH/2, HEIGHT/10 * 6), self.display_surface, "settings_pause", "SETTINGS")) #Add unpause button
-        self.buttons.add(Button((WIDTH/2, HEIGHT/10 * 8), self.display_surface, "exit", "EXIT")) #Add unpause button
+        self.buttons.add(Button((WIDTH/2, HEIGHT/10 * 2), self.display_surface, "play", metrics=(150,50), image="/buttons/play")) #Add unpause button
+        #self.buttons.add(Button((WIDTH/2, HEIGHT/10 * 4), self.display_surface, "start_menu", "MAIN MENU")) #Add unpause button
+        #self.buttons.add(Button((WIDTH/2, HEIGHT/10 * 6), self.display_surface, "settings_pause", "SETTINGS")) #Add unpause button
+        #self.buttons.add(Button((WIDTH/2, HEIGHT/10 * 8), self.display_surface, "exit", "EXIT")) #Add unpause button
         
         self.font = pygame.font.Font("./fonts/rexlia_rg.otf", 30)
 
     def show_menu(self, event_list):
-        self.display_surface.fill('black')
+        self.display_surface.fill((18,32,45))
         # self.buttons.draw(self.display_surface)
         for button in self.buttons.sprites():
             button.draw()
@@ -117,7 +117,7 @@ class ShopMenu:
         self.update()
 
     def show_menu(self, event_list):
-        self.display_surface.fill('black')
+        self.display_surface.fill(('10','26','41'))
         # self.buttons.draw(self.display_surface)
         for button in self.buttons.sprites():
             button.draw()
@@ -224,7 +224,7 @@ class StartMenu:
         self.score = return_json_data()["high_score"]
 
     def show_menu(self, event_list):
-        self.display_surface.fill('black')
+        self.display_surface.fill((18,32,45))
         # self.buttons.draw(self.display_surface)
         for button in self.buttons.sprites():
             button.draw()
@@ -261,7 +261,7 @@ class SettingsMenuMenu:
         self.font = pygame.font.Font("./fonts/rexlia_rg.otf", 30)
 
     def show_menu(self, event_list):
-        self.display_surface.fill('black')
+        self.display_surface.fill((18,32,45))
         # self.buttons.draw(self.display_surface)
         for button in self.buttons.sprites():
             button.draw()
@@ -299,7 +299,7 @@ class SettingsMenuPause:
         self.font = pygame.font.Font("./fonts/rexlia_rg.otf", 30)
 
     def show_menu(self, event_list):
-        self.display_surface.fill('black')
+        self.display_surface.fill((18,32,45))
         # self.buttons.draw(self.display_surface)
         for button in self.buttons.sprites():
             button.draw()
