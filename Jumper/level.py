@@ -9,7 +9,7 @@ from settings import *
 from math import pow
 from ui import UI
 
-background = load_image('bck', WIDTH,HEIGHT)
+background = load_image('bck2', WIDTH,HEIGHT)
 
 class Level:
     def __init__(self, surface, settings, change_status):

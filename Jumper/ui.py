@@ -7,6 +7,6 @@ class UI:
         self.font = pygame.font.Font("./fonts/rexlia_rg.otf", 30)
 
     def show_score(self, score):
-        score_surf = self.font.render(str(score), False, "#53f53f")
+        score_surf = self.font.render(str(score), False, "white")
         score_rect = score_surf.get_rect(center = (WIDTH/2, 60))
         self.display_surface.blit(score_surf, score_rect)

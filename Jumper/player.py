@@ -121,7 +121,7 @@ class Shield(pygame.sprite.Sprite):
         super().__init__()
         self.pos = pos
         self.image = pygame.Surface((100,100))
-        self.image = load_image('binary-shield', 100, 100)
+        self.image = load_image('shield', 100, 100)
         self.rect = self.image.get_rect(center = pos)
         self.start = 0
 

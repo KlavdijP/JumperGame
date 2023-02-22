@@ -9,7 +9,7 @@ class Pickups(pygame.sprite.Sprite):
         self.image = pygame.Surface((75,75))
         self.type = type
         if self.type == "shield":
-            self.image = load_image('binary-shield', 75, 75)
+            self.image = load_image('shield', 75, 75)
         elif self.type == "microchip":
             self.image = load_image('enemy-fly', 50, 50)
         self.rect = self.image.get_rect(topleft = (posx, posy))

@@ -2,6 +2,9 @@ import pygame
 import os
 import json
 
+def get_mouse_pos():
+    return pygame.mouse.get_pos()
+
 def load_image(src, sc1, sc2, flipped=False):
     if flipped:
         return pygame.transform.flip(pygame.transform.scale(pygame.image.load("./assets/" + src + ".png"), (sc1, sc2)), True, False)
@@ -51,6 +54,7 @@ def create_new_json():
         "fans": 0,
         "cpus": 0,
         "frames": 0,
+        "builds": 0,
     }
     with open(filepath, "w") as f:
         json.dump(dictionary, f)

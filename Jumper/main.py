@@ -80,5 +80,6 @@ while True:
     game.run(event_list)
 
     display.blit(pygame.transform.scale(screen, (display.get_width(), display.get_height())), (0, 0))
+    print(HEIGHT, display.get_height())
     pygame.display.update()
     clock.tick(fps)
