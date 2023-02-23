@@ -15,19 +15,37 @@ class Game:
         self.player_name = ""
         self.status = "start_menu"
         self.settings = settings
-        self.level = Level(screen, self.settings, self.change_status)
+        self.level = Level(screen, self.settings, self.change_status, display)
         self.new_player()
-        self.start_menu = StartMenu(screen, self.change_status)
-        self.shop_menu = ShopMenu(screen, self.change_status)
-        self.pause_menu = PauseMenu(screen, self.change_status)
-        self.settings_menu_menu = SettingsMenuMenu(screen, self.change_status, settings)
-        self.settings_menu_pause = SettingsMenuPause(screen, self.change_status, settings)
-    
+        self.start_menu = StartMenu(screen, self.change_status, display)
+        self.shop_menu = ShopMenu(screen, self.change_status, display)
+        self.pause_menu = PauseMenu(screen, self.change_status, display)
+        self.settings_menu_menu = SettingsMenuMenu(screen, self.change_status, settings, display)
+        self.settings_menu_pause = SettingsMenuPause(screen, self.change_status, settings, display)
+        self.money = 0
+        self.builds = 0
+        self.timer = 0
+
     def new_player(self):
-        return_json_data()
-        
+        data = return_json_data()
+        self.builds = data["builds"]
+        self.money = 0
+    
+    def mining(self):
+        self.money += self.builds * 0.0003
+        self.timer += 1
+        if self.timer > 60:
+            self.timer = 0
+            self.save_earning()
+            self.new_player()
+
+    def save_earning(self):
+        # print(self.money)
+        update_stock("money", self.money)
+
     def run(self, event_list): 
         ## MINING BITCOIN
+        self.mining()
         # Rigs running at all time
         for event in event_list:
             if event.type == pygame.KEYDOWN:
@@ -61,7 +79,7 @@ class Game:
             self.start_menu.update_score()
     
     def new_game(self):
-        self.level = Level(screen, self.settings, self.change_status)
+        self.level = Level(screen, self.settings, self.change_status, display)
         self.status = "play"
 
 display = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
@@ -80,6 +98,5 @@ while True:
     game.run(event_list)
 
     display.blit(pygame.transform.scale(screen, (display.get_width(), display.get_height())), (0, 0))
-    print(HEIGHT, display.get_height())
     pygame.display.update()
     clock.tick(fps)

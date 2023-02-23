@@ -1,9 +1,14 @@
 import pygame
 import os
 import json
+from settings import *
 
-def get_mouse_pos():
-    return pygame.mouse.get_pos()
+
+
+def get_mouse_pos(display):
+    pos = pygame.mouse.get_pos()
+
+    return (pos[0] * (WIDTH / display.get_width()), pos[1] * (HEIGHT / display.get_height()))
 
 def load_image(src, sc1, sc2, flipped=False):
     if flipped:
@@ -38,7 +43,7 @@ def return_json_data():
         return data
     else:
         create_new_json()
-        return_json_data()
+        return return_json_data()
 
 def create_new_json():
     filepath = "data.json"
@@ -54,7 +59,7 @@ def create_new_json():
         "fans": 0,
         "cpus": 0,
         "frames": 0,
-        "builds": 0,
+        "builds": 1,
     }
     with open(filepath, "w") as f:
         json.dump(dictionary, f)

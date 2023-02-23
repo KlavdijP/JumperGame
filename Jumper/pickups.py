@@ -11,7 +11,7 @@ class Pickups(pygame.sprite.Sprite):
         if self.type == "shield":
             self.image = load_image('shield', 75, 75)
         elif self.type == "microchip":
-            self.image = load_image('enemy-fly', 50, 50)
+            self.image = load_image('./Shop/microchip', 25, 25)
         self.rect = self.image.get_rect(topleft = (posx, posy))
         self.speed = 0
     

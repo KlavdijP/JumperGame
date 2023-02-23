@@ -12,7 +12,7 @@ from ui import UI
 background = load_image('bck2', WIDTH,HEIGHT)
 
 class Level:
-    def __init__(self, surface, settings, change_status):
+    def __init__(self, surface, settings, change_status, display):
         self.settings = settings
         self.change_status = change_status
         self.player = pygame.sprite.GroupSingle()
@@ -23,7 +23,7 @@ class Level:
         self.enemyBouncer = pygame.sprite.GroupSingle()
         self.lastenemy = 0
         self.bullets = pygame.sprite.Group()
-        self.score = 0
+        self.score = 140
         self.microchips = 0
         self.difficulty = "easy"
         self.ui = UI(self.display_surface)
@@ -31,6 +31,7 @@ class Level:
         self.pickups = pygame.sprite.Group()
         self.width = 1
         self.height = 1
+        self.display = display
 
         #Background
         self.bck_scroll = 0
@@ -291,8 +292,9 @@ class Level:
                 self.width = WIDTH/event.w
                 self.height = HEIGHT/event.h
             if event.type == pygame.MOUSEBUTTONUP:
-                pos = pygame.mouse.get_pos()
-                print(pos, self.player.sprite.position()[0]/self.width, self.player.sprite.position()[1]/self.height)
+                ##pos = pygame.mouse.get_pos()
+                pos = get_mouse_pos(self.display)
+                print(pos, self.player.sprite.position()[0], self.player.sprite.position()[1])
                 print(self.width, self.height)
                 self.playerShootBullet(pos)
                 # self.shield.add(Shield(self.player.sprite.position()))

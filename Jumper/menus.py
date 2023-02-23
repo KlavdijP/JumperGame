@@ -4,18 +4,19 @@ from button import Button
 from functions import *
 
 prices = {
-    "gpu": 10,
-    "microchip": 1,
-    "mb": 10,
-    "psu": 10,
-    "fan": 1,
-    "cpu": 10,
-    "frame": 10,
+    "gpu": (120, 0),
+    "microchip": (0, 100),
+    "mb": (80, 0),
+    "psu": (5, 10),
+    "fan": (2, 10),
+    "cpu": (100, 0),
+    "frame": (0, 100),
 }
 
 class PauseMenu:
-    def __init__(self, surface, change_status):
+    def __init__(self, surface, change_status, display):
         self.display_surface = surface
+        self.display = display
         self.change_status = change_status
         self.buttons = pygame.sprite.Group()
 
@@ -32,16 +33,18 @@ class PauseMenu:
 
         for event in event_list:
             if event.type == pygame.MOUSEBUTTONUP:
-                pos = get_mouse_pos()
+                pos = get_mouse_pos(self.display)
                 print(pos)
                 for x in self.buttons:
+                    print("\t%s %s" % (x.pos, x.type))
                     if x.rect.collidepoint(pos):
                         print("Clicked %s", x.type)
                         self.change_status(x.type)
 
 class ShopMenu:
-    def __init__(self, surface, change_status):
+    def __init__(self, surface, change_status, display):
         self.display_surface = surface
+        self.display = display
         self.change_status = change_status
         self.buttons = pygame.sprite.Group()
         self.microchips = 0
@@ -55,12 +58,12 @@ class ShopMenu:
         self.buttons.add(Button((WIDTH/2, HEIGHT/10 * 9), self.display_surface, "start_menu", metrics=(150,50), image="/buttons/menu")) #Add unpause button
         self.buttons.add(Button((WIDTH/8 * 2, HEIGHT/10 * 3), self.display_surface, "microchip", metrics=(40,40), image="/shop/microchip", fontsize=15)) #Add unpause button
         self.buttons.add(Button((WIDTH/8 * 6, HEIGHT/10 * 3), self.display_surface, "build", metrics=(80,80), image="/shop/build", fontsize=15)) #Add unpause button
-        self.buttons.add(Button((WIDTH/8 * 2, HEIGHT/10 * 4), self.display_surface, "mb", metrics=(50,50), image="/shop/mb", fontsize=15)) #Add unpause button
-        self.buttons.add(Button((WIDTH/8 * 4, HEIGHT/10 * 4), self.display_surface, "gpu", metrics=(50,50), image="/shop/gpu", fontsize=15)) #Add unpause button
-        self.buttons.add(Button((WIDTH/8 * 6, HEIGHT/10 * 4), self.display_surface, "cpu", metrics=(50,50), image="/shop/cpu", fontsize=15)) #Add unpause button
-        self.buttons.add(Button((WIDTH/8 * 2, HEIGHT/10 * 6), self.display_surface, "fan", metrics=(50,50), image="/shop/fan", fontsize=15)) #Add unpause button
-        self.buttons.add(Button((WIDTH/8 * 4, HEIGHT/10 * 6), self.display_surface, "frame", metrics=(50,50), image="/shop/case", fontsize=15)) #Add unpause button
-        self.buttons.add(Button((WIDTH/8 * 6, HEIGHT/10 * 6), self.display_surface, "psu", metrics=(50,50), image="/shop/psu", fontsize=15)) #Add unpause button
+        self.buttons.add(Button((WIDTH/8 * 2, HEIGHT/10 * 5), self.display_surface, "mb", metrics=(50,50), image="/shop/mb", fontsize=15)) #Add unpause button
+        self.buttons.add(Button((WIDTH/8 * 4, HEIGHT/10 * 5), self.display_surface, "gpu", metrics=(50,50), image="/shop/gpu", fontsize=15)) #Add unpause button
+        self.buttons.add(Button((WIDTH/8 * 6, HEIGHT/10 * 5), self.display_surface, "cpu", metrics=(50,50), image="/shop/cpu", fontsize=15)) #Add unpause button
+        self.buttons.add(Button((WIDTH/8 * 2, HEIGHT/10 * 7), self.display_surface, "fan", metrics=(50,50), image="/shop/fan", fontsize=15)) #Add unpause button
+        self.buttons.add(Button((WIDTH/8 * 4, HEIGHT/10 * 7), self.display_surface, "frame", metrics=(50,50), image="/shop/case", fontsize=15)) #Add unpause button
+        self.buttons.add(Button((WIDTH/8 * 6, HEIGHT/10 * 7), self.display_surface, "psu", metrics=(50,50), image="/shop/psu", fontsize=15)) #Add unpause button
         self.font1 = pygame.font.Font("./fonts/rexlia_rg.otf", 30)
         self.font2= pygame.font.Font("./fonts/rexlia_rg.otf", 15)
         self.update()
@@ -80,39 +83,43 @@ class ShopMenu:
 
     def buy(self, item):
         if item == "gpu":
-            if self.microchips - prices["gpu"] >= 0:
+            if self.microchips - prices["gpu"][0] >= 0:
                 update_stock("gpus", 1)
-                update_stock("microchips", -1 * prices["gpu"])
+                update_stock("microchips", -1 * prices["gpu"][0])
         
         elif item == "microchip":
-            if self.money - prices["microchip"] >= 0:
-                update_stock("microchips", 1)
-                update_stock("money", -1 * prices["microchip"])
+            if self.money - prices["microchip"][1] >= 0:
+                update_stock("microchips", 10)
+                update_stock("money", -1 * prices["microchip"][1])
         
         elif item == "mb":
-            if self.microchips - prices["mb"] >= 0:
+            if self.microchips - prices["mb"][0] >= 0:
                 update_stock("mbs", 1)
-                update_stock("microchips", -1 * prices["mb"])
+                update_stock("microchips", -1 * prices["mb"][0])
         
         elif item == "psu":
-            if self.microchips - prices["psu"] >= 0:
-                update_stock("psus", 1)
-                update_stock("microchips", -1 * prices["psu"])
+            if self.microchips - prices["psu"][0] >= 0:
+                if self.money - prices["psu"][1] >= 0:
+                    update_stock("psus", 1)
+                    update_stock("money", -1 * prices["psu"][1])
+                    update_stock("microchips", -1 * prices["psu"][0])
         
         elif item == "fan":
-            if self.microchips - prices["fan"] >= 0:
-                update_stock("fans", 1)
-                update_stock("microchips", -1 * prices["fan"])
+            if self.microchips - prices["fan"][0] >= 0:
+                if self.money - prices["psu"][1] >= 0:
+                    update_stock("fans", 1)
+                    update_stock("microchips", -1 * prices["fan"][0])
+                    update_stock("money", -1 * prices["fan"][1])
         
         elif item == "cpu":
-            if self.microchips - prices["cpu"] >= 0:
+            if self.microchips - prices["cpu"][0] >= 0:
                 update_stock("cpus", 1)
-                update_stock("microchips", -1 * prices["cpu"])
+                update_stock("microchips", -1 * prices["cpu"][0])
         
         elif item == "frame":
-            if self.microchips - prices["frame"] >= 0:
+            if self.money - prices["frame"][0] >= 0:
                 update_stock("frames", 1)
-                update_stock("microchips", -1 * prices["frame"])
+                update_stock("money", -1 * prices["frame"][0])
 
         elif item == "build":
             if (self.mbs - 1 >= 0 and
@@ -133,10 +140,10 @@ class ShopMenu:
 
     def draw_text(self, part, amount, pos1, pos2):
         sfx_label = self.font2.render(part, False, "white")
-        sfx_rect = sfx_label.get_rect(center = (pos1, pos2))
+        sfx_rect = sfx_label.get_rect(center = (pos1, pos2 * 0.95))
         self.display_surface.blit(sfx_label, sfx_rect)
         sfx_label = self.font2.render(str(amount), False, "white")
-        sfx_rect = sfx_label.get_rect(center = (pos1, pos2 * 0.125))
+        sfx_rect = sfx_label.get_rect(center = (pos1, pos2 * 0.95 + 15))
         self.display_surface.blit(sfx_label, sfx_rect)
 
     def show_menu(self, event_list):
@@ -153,17 +160,18 @@ class ShopMenu:
         sfx_rect = sfx_label.get_rect(center = (WIDTH/2, HEIGHT/10 * 2))
         self.display_surface.blit(sfx_label, sfx_rect)
 
-        self.draw_text("MC", self.microchips, WIDTH/8 *2, HEIGHT/10 *3)
-        self.draw_text("MB", self.mbs, WIDTH/8 *2, HEIGHT/10 *5)
-        self.draw_text("GPU", self.gpus, WIDTH/8 *4, HEIGHT/10 *5)
-        self.draw_text("CPU", self.cpus, WIDTH/8 *6, HEIGHT/10 *5)
-        self.draw_text("FAN", self.fans, WIDTH/8 *2, HEIGHT/10 *7)
-        self.draw_text("FRAME", self.frames, WIDTH/8 *4, HEIGHT/10 *7)       
-        self.draw_text("PSU", self.psus, WIDTH/8 *6, HEIGHT/10 *7)
+        self.draw_text("MC", self.microchips, WIDTH/8 *2, HEIGHT/10 *4)
+        self.draw_text("BUILD", self.builds, WIDTH/8 *6, HEIGHT/10 *4)
+        self.draw_text("MB", self.mbs, WIDTH/8 *2, HEIGHT/10 *6)
+        self.draw_text("GPU", self.gpus, WIDTH/8 *4, HEIGHT/10 *6)
+        self.draw_text("CPU", self.cpus, WIDTH/8 *6, HEIGHT/10 *6)
+        self.draw_text("FAN", self.fans, WIDTH/8 *2, HEIGHT/10 *8)
+        self.draw_text("FRAME", self.frames, WIDTH/8 *4, HEIGHT/10 *8)       
+        self.draw_text("PSU", self.psus, WIDTH/8 *6, HEIGHT/10 *8)
 
         for event in event_list:
             if event.type == pygame.MOUSEBUTTONUP:
-                pos = pygame.mouse.get_pos()
+                pos = get_mouse_pos(self.display)
                 print(pos)
                 for x in self.buttons:
                     if x.rect.collidepoint(pos):
@@ -188,8 +196,9 @@ class ShopMenu:
                             self.change_status(x.type)
 
 class StartMenu:
-    def __init__(self, surface, change_status):
+    def __init__(self, surface, change_status, display):
         self.display_surface = surface
+        self.display = display
         self.change_status = change_status
         self.buttons = pygame.sprite.Group()
         self.buttons.add(Button((WIDTH/2, HEIGHT/10 * 4), self.display_surface, "newgame", metrics=(150,50), image="/buttons/play"))
@@ -222,7 +231,7 @@ class StartMenu:
 
         for event in event_list:
             if event.type == pygame.MOUSEBUTTONUP:
-                pos = pygame.mouse.get_pos()
+                pos = get_mouse_pos(self.display)
                 print(pos)
                 for x in self.buttons:
                     if x.rect.collidepoint(pos):
@@ -230,9 +239,10 @@ class StartMenu:
                         self.change_status(x.type)
 
 class SettingsMenuMenu:
-    def __init__(self, surface, change_status, settings):
+    def __init__(self, surface, change_status, settings, display):
         self.settings = settings
         self.display_surface = surface
+        self.display = display
         self.change_status = change_status
         self.buttons = pygame.sprite.Group()
         # self.buttons.add(Button((WIDTH/2, HEIGHT/10 * 6), self.display_surface, "start_menu", "CHANGE NAME"))
@@ -255,7 +265,7 @@ class SettingsMenuMenu:
 
         for event in event_list:
             if event.type == pygame.MOUSEBUTTONUP:
-                pos = pygame.mouse.get_pos()
+                pos = get_mouse_pos(self.display)
                 print(pos)
                 for x in self.buttons:
                     if x.rect.collidepoint(pos):
@@ -269,8 +279,9 @@ class SettingsMenuMenu:
                                 self.settings.set_sfx(-10)
      
 class SettingsMenuPause:
-    def __init__(self, surface, change_status, settings):
+    def __init__(self, surface, change_status, settings, display):
         self.settings = settings
+        self.display = display
         self.display_surface = surface
         self.change_status = change_status
         self.buttons = pygame.sprite.Group()
@@ -292,7 +303,7 @@ class SettingsMenuPause:
 
         for event in event_list:
             if event.type == pygame.MOUSEBUTTONUP:
-                pos = pygame.mouse.get_pos()
+                pos = get_mouse_pos(self.display)
                 print(pos)
                 for x in self.buttons:
                     if x.rect.collidepoint(pos):

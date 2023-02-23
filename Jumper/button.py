@@ -12,6 +12,7 @@ class Button(pygame.sprite.Sprite):
         self.metrics = metrics
         self.type = type
         self.surface = surface
+        self.pos = pos
         if image != "":
             self.image = load_image(image,self.metrics[0], self.metrics[1])
         else:
