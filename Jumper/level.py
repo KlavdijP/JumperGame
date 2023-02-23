@@ -29,8 +29,6 @@ class Level:
         self.ui = UI(self.display_surface)
         self.shield = pygame.sprite.GroupSingle()
         self.pickups = pygame.sprite.Group()
-        self.width = 1
-        self.height = 1
         self.display = display
 
         #Background
@@ -123,7 +121,9 @@ class Level:
 
     def playerShootBullet(self, clickPos):
         playerPos = self.player.sprite.position()
-        playerPos = ((playerPos[0])/self.width, (playerPos[1])/self.height)
+        playerPos = ((playerPos[0]), (playerPos[1]))
+
+
         self.bullets.add(Bullet(playerPos,clickPos, self.settings))
 
     def collision_bullet_enemy(self):
@@ -288,14 +288,10 @@ class Level:
         #bullet
 
         for event in event_list:
-            if event.type == pygame.VIDEORESIZE:
-                self.width = WIDTH/event.w
-                self.height = HEIGHT/event.h
             if event.type == pygame.MOUSEBUTTONUP:
                 ##pos = pygame.mouse.get_pos()
                 pos = get_mouse_pos(self.display)
                 print(pos, self.player.sprite.position()[0], self.player.sprite.position()[1])
-                print(self.width, self.height)
                 self.playerShootBullet(pos)
                 # self.shield.add(Shield(self.player.sprite.position()))
         self.bullets.update()

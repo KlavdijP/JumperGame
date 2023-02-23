@@ -95,6 +95,7 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
+
     game.run(event_list)
 
     display.blit(pygame.transform.scale(screen, (display.get_width(), display.get_height())), (0, 0))
