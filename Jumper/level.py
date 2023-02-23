@@ -115,16 +115,21 @@ class Level:
                 spawn_microchip = randint(0,1000)
                 if spawn_microchip < 50:
                     self.pickups.add(Pickups(randint(0 + 20, WIDTH - 20), platform.rect.y-20, "microchip"))
+                
+                #Cash generate
+                spawn_cash = randint(0,1000)
+                if spawn_cash < 50:
+                    self.pickups.add(Pickups(randint(0 + 20, WIDTH - 20), platform.rect.y-20, "cash"))
                 self.platforms.add(platform)
                 self.last_type = platform.returnType()
                 self.update_score(1)
 
     def playerShootBullet(self, clickPos):
         playerPos = self.player.sprite.position()
-        playerPos = ((playerPos[0]), (playerPos[1]))
+        playerPos = ((playerPos[0]+25), (playerPos[1]+25))
 
-
-        self.bullets.add(Bullet(playerPos,clickPos, self.settings))
+        if len(self.bullets) < 2:
+            self.bullets.add(Bullet(playerPos,clickPos, self.settings))
 
     def collision_bullet_enemy(self):
         for bullet in self.bullets.sprites():
@@ -291,7 +296,7 @@ class Level:
             if event.type == pygame.MOUSEBUTTONUP:
                 ##pos = pygame.mouse.get_pos()
                 pos = get_mouse_pos(self.display)
-                print(pos, self.player.sprite.position()[0], self.player.sprite.position()[1])
+                print(pos, self.player.sprite.position()[0]+25, self.player.sprite.position()[1]+25)
                 self.playerShootBullet(pos)
                 # self.shield.add(Shield(self.player.sprite.position()))
         self.bullets.update()
