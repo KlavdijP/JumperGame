@@ -55,6 +55,7 @@ class Game:
                 elif event.key == pygame.K_p and self.status == "pause":
                     self.status="play"
         if self.status == "play":
+            pygame.mixer.unpause()
             self.level.run(event_list)
         elif self.status == "pause":
             pygame.mixer.pause()

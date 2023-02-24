@@ -25,6 +25,7 @@ class Level:
         self.bullets = pygame.sprite.Group()
         self.score = 140
         self.microchips = 0
+        self.cash = 0
         self.difficulty = "easy"
         self.ui = UI(self.display_surface)
         self.shield = pygame.sprite.GroupSingle()
@@ -177,8 +178,10 @@ class Level:
                 if type == "shield":
                     self.shield.add(Shield(self.player.sprite.position()))
                 elif type == "microchip":
-                    self.microchips += 1
-                    print("aa")
+                    self.microchips += 1                
+                elif type == "cash":
+                    self.cash += 10
+                
                 pickup.kill()
 
     def end(self):
@@ -187,7 +190,9 @@ class Level:
         #     write_file("high_score.txt", self.score)
         update_high_score(self.score)
         update_stock("microchips", self.microchips)
+        update_stock("money", self.cash)
         self.microchips = 0
+        self.cash = 0
         self.change_status("start_menu")
 
     def spawn_air(self):

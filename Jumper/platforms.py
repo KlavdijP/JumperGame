@@ -48,7 +48,7 @@ class Platform(pygame.sprite.Sprite):
         print(self.rect.x, self.move_to)
     def returnType(self):
         return self.type
-    
+
     def move_it(self):
         if self.gen_move:
             randMove = randint(0, self.arr[0])
@@ -70,7 +70,7 @@ class Platform(pygame.sprite.Sprite):
 
         elif self.difficulty == "easy":
             self.arr = [1, 2, 0]
-        
+
         randType = randint(0, self.arr[0])
         if randType < self.arr[1]:
             print(randType)
