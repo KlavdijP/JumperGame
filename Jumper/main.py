@@ -25,7 +25,8 @@ class Game:
         self.money = 0
         self.builds = 0
         self.timer = 0
-
+        self.settings.set_song(50)
+        self.settings.start_song()
     def new_player(self):
         data = return_json_data()
         self.builds = data["builds"]
@@ -56,6 +57,7 @@ class Game:
         if self.status == "play":
             self.level.run(event_list)
         elif self.status == "pause":
+            pygame.mixer.pause()
             self.pause_menu.show_menu(event_list)
         elif self.status == "start_menu":
             self.level.end()

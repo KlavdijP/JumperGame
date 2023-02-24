@@ -247,8 +247,10 @@ class SettingsMenuMenu:
         self.buttons = pygame.sprite.Group()
         # self.buttons.add(Button((WIDTH/2, HEIGHT/10 * 6), self.display_surface, "start_menu", "CHANGE NAME"))
         self.buttons.add(Button((WIDTH/2, HEIGHT/10 * 7), self.display_surface, "start_menu", metrics=(150,50), image="/buttons/menu"))
-        self.buttons.add(Button((WIDTH/14 * 5, HEIGHT/10 * 4), self.display_surface, "volume", "-", metrics=(50,50), image="/buttons/minus"))
-        self.buttons.add(Button((WIDTH/14 * 9, HEIGHT/10 * 4), self.display_surface, "volume", "+", metrics=(50,50), image="/buttons/plus"))
+        self.buttons.add(Button((WIDTH/14 * 5, HEIGHT/10 * 3), self.display_surface, "volume", "s-", metrics=(50,50), image="/buttons/minus"))
+        self.buttons.add(Button((WIDTH/14 * 9, HEIGHT/10 * 3), self.display_surface, "volume", "s+", metrics=(50,50), image="/buttons/plus"))
+        self.buttons.add(Button((WIDTH/14 * 5, HEIGHT/10 * 5), self.display_surface, "volume", "m-", metrics=(50,50), image="/buttons/minus"))
+        self.buttons.add(Button((WIDTH/14 * 9, HEIGHT/10 * 5), self.display_surface, "volume", "m+", metrics=(50,50), image="/buttons/plus"))
         
         self.font = pygame.font.Font("./fonts/rexlia_rg.otf", 30)
 
@@ -258,10 +260,20 @@ class SettingsMenuMenu:
         for button in self.buttons.sprites():
             button.draw()
 
-        sfx_label = self.font.render(str(self.settings.sfx), False, "white")
-        sfx_rect = sfx_label.get_rect(center = (WIDTH/14*7, HEIGHT/10 * 4))
+        sfx_label = self.font.render("SFX", False, "white")
+        sfx_rect = sfx_label.get_rect(center = (WIDTH/14*7, HEIGHT/10 * 2.4))
         self.display_surface.blit(sfx_label, sfx_rect)
 
+        sfx_label = self.font.render(str(self.settings.sfx), False, "white")
+        sfx_rect = sfx_label.get_rect(center = (WIDTH/14*7, HEIGHT/10 * 3))
+        self.display_surface.blit(sfx_label, sfx_rect)
+
+        sfx_label = self.font.render("MUSIC", False, "white")
+        sfx_rect = sfx_label.get_rect(center = (WIDTH/14*7, HEIGHT/10 * 4.4))
+        self.display_surface.blit(sfx_label, sfx_rect)
+        sfx_label = self.font.render(str(self.settings.music), False, "white")
+        sfx_rect = sfx_label.get_rect(center = (WIDTH/14*7, HEIGHT/10 * 5))
+        self.display_surface.blit(sfx_label, sfx_rect)
 
         for event in event_list:
             if event.type == pygame.MOUSEBUTTONUP:
@@ -273,10 +285,14 @@ class SettingsMenuMenu:
                         if x.type != "volume":
                             self.change_status(x.type)
                         else:
-                            if x.displayed == "+":
+                            if x.displayed == "s+":
                                 self.settings.set_sfx(10)
-                            elif x.displayed == "-":
+                            elif x.displayed == "s-":
                                 self.settings.set_sfx(-10)
+                            elif x.displayed == "m+":
+                                self.settings.set_song(10)
+                            elif x.displayed == "m-":
+                                self.settings.set_song(-10)
      
 class SettingsMenuPause:
     def __init__(self, surface, change_status, settings, display):
@@ -285,10 +301,11 @@ class SettingsMenuPause:
         self.display_surface = surface
         self.change_status = change_status
         self.buttons = pygame.sprite.Group()
-        self.buttons.add(Button((WIDTH/2, HEIGHT/2), self.display_surface, "pause", metrics=(150,50), image="/buttons/back"))
-        self.buttons.add(Button((WIDTH/14 * 5, HEIGHT/10 * 4), self.display_surface, "volume", "-", metrics=(50,50), image="/buttons/minus"))
-        self.buttons.add(Button((WIDTH/14 * 9, HEIGHT/10 * 4), self.display_surface, "volume", "+", metrics=(50,50), image="/buttons/plus"))
-        
+        self.buttons.add(Button((WIDTH/2, HEIGHT/10 * 7), self.display_surface, "pause", metrics=(150,50), image="/buttons/back"))
+        self.buttons.add(Button((WIDTH/14 * 5, HEIGHT/10 * 3), self.display_surface, "volume", "-", metrics=(50,50), image="/buttons/minus"))
+        self.buttons.add(Button((WIDTH/14 * 9, HEIGHT/10 * 3), self.display_surface, "volume", "+", metrics=(50,50), image="/buttons/plus"))
+        self.buttons.add(Button((WIDTH/14 * 5, HEIGHT/10 * 5), self.display_surface, "volume", "m-", metrics=(50,50), image="/buttons/minus"))
+        self.buttons.add(Button((WIDTH/14 * 9, HEIGHT/10 * 5), self.display_surface, "volume", "m+", metrics=(50,50), image="/buttons/plus"))
         self.font = pygame.font.Font("./fonts/rexlia_rg.otf", 30)
 
     def show_menu(self, event_list):
@@ -297,8 +314,19 @@ class SettingsMenuPause:
         for button in self.buttons.sprites():
             button.draw()
 
+        sfx_label = self.font.render("SFX", False, "white")
+        sfx_rect = sfx_label.get_rect(center = (WIDTH/14*7, HEIGHT/10 * 2.4))
+        self.display_surface.blit(sfx_label, sfx_rect)
+
         sfx_label = self.font.render(str(self.settings.sfx), False, "white")
-        sfx_rect = sfx_label.get_rect(center = (WIDTH/14*7, HEIGHT/10 * 4))
+        sfx_rect = sfx_label.get_rect(center = (WIDTH/14*7, HEIGHT/10 * 3))
+        self.display_surface.blit(sfx_label, sfx_rect)
+
+        sfx_label = self.font.render("MUSIC", False, "white")
+        sfx_rect = sfx_label.get_rect(center = (WIDTH/14*7, HEIGHT/10 * 4.4))
+        self.display_surface.blit(sfx_label, sfx_rect)
+        sfx_label = self.font.render(str(self.settings.music), False, "white")
+        sfx_rect = sfx_label.get_rect(center = (WIDTH/14*7, HEIGHT/10 * 5))
         self.display_surface.blit(sfx_label, sfx_rect)
 
         for event in event_list:
@@ -315,3 +343,7 @@ class SettingsMenuPause:
                                 self.settings.set_sfx(10)
                             elif x.displayed == "-":
                                 self.settings.set_sfx(-10)
+                            elif x.displayed == "m+":
+                                self.settings.set_song(10)
+                            elif x.displayed == "m-":
+                                self.settings.set_song(-10)

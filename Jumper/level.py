@@ -59,6 +59,10 @@ class Level:
             self.platforms.add(platform)
             self.last_type = platform.returnType()
 
+    def move_platforms(self):
+        for platform in self.platforms:
+            platform.move_it()
+
     def collision_player_platform(self):
         player = self.player.sprite
         if player.direction.y >= 0:
@@ -70,10 +74,12 @@ class Level:
                         sprite.kill()
                     elif sprite.type == 2:
                         player.jump(sprite.rect.top)
+                        self.move_platforms()
                         self.update_score(1)
                         sprite.kill()
                     else:
                         player.jump(sprite.rect.top)
+                        self.move_platforms()
     
     def stop_object(self, object):
         for sprite in object.sprites():
@@ -102,9 +108,10 @@ class Level:
         for sprite in self.platforms.sprites():
             if sprite.rect.y > 100 and sprite.generated == False:
                 sprite.generated = True
-                platform = Platform(randint(0, WIDTH-100), 0, self.settings, self.difficulty)
+                movable = randint(0,5)
+                platform = Platform(randint(0, WIDTH-100), 0, self.settings, self.difficulty, move=(True if movable==1 else False))
                 while(platform.returnType() == 3 and self.last_type == 3):
-                    platform = Platform(randint(0, WIDTH-100), 0, self.settings, self.difficulty)
+                    platform = Platform(randint(0, WIDTH-100), 0, self.settings, self.difficulty, move=(True if movable==1 else False))
                 
                 #Shield generate
                 spawn_shield = randint(0, 1000)
@@ -219,14 +226,13 @@ class Level:
         if randType < arr[1]:
             return
         elif randType >= arr[1]:
-            self.spawn_bouncer()
-            # tmp = randint(0, 3)
-            # if tmp == 0:
-            #     self.spawn_bouncer()
-            # elif tmp == 1:
-            #     self.spawn_air()
-            # elif tmp == 2:
-            #     self.spawn_fan()
+            tmp = randint(0, 3)
+            if tmp == 0:
+                self.spawn_bouncer()
+            elif tmp == 1:
+                self.spawn_air()
+            elif tmp == 2:
+                self.spawn_fan()
 
             # if (arr[0] - randType) > (arr[0] - arr[1])/2:
             #     self.spawn_air()
