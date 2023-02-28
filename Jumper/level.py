@@ -81,7 +81,7 @@ class Level:
                     else:
                         player.jump(sprite.rect.top)
                         self.move_platforms()
-    
+
     def stop_object(self, object):
         for sprite in object.sprites():
             sprite.speed = 0
