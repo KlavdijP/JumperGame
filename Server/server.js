@@ -2,26 +2,67 @@ var express = require('express');
 var app = express();
 var fs = require('fs');
 const bodyParser = require('body-parser');
+var http = require('http');
 
 app.use(bodyParser.json());
+app.set('view engine', 'ejs');
+
 
 // This responds with "Hello World" on the homepage
 app.get('/', function (req, res) {
-   console.log("Got a GET request for the homepage");
-   res.send('Hello GET');
-})
+   res.render('pages/index');
+});
 
-function addToData(tmp){
+app.get('/about', function (req, res) {
+    res.render('pages/about');
+});
+
+app.get('/licences', function (req, res) {
+    res.render('pages/licences');
+});
+
+function addToData(tmp, res){
     const filePath = './Scores/data.json';
+    console.log(tmp.high_score);
     try {
-        let object = {"player_name":tmp.player_name, "timestamp": tmp.timestamp, "high_score":tmp.high_score}
-        const existingData = JSON.parse()
-        fs.writeFile(filePath, JSON.stringify(object), (err) => {
-            console.log(error);
+        let object = {'player_name':tmp.player_name, 'timestamp': Date.now(), 'high_score':tmp.high_score};
+
+        // fs.appendFileSync(filePath, JSON.stringify(object));
+        fs.readFile(filePath, (err, data) => {
+            if (err) {
+                console.error(err);
+                res.sendStatus(500);
+                return;
+            }
+            let json_data = JSON.parse(data);
+            json_data.push(object);
+            console.log(json_data);
+
+            fs.writeFile(filePath, JSON.stringify(json_data), (err) => {
+                if (err){
+                    console.log("writefile error");
+                    return;
+                }
+            });
         });
-        console.log("NEW RECORD ADDED");
+        //     const parsedData = JSON.load(data);
+        //     parsedData.append(object);
+
+        //     fs.writeFile(filePath, JSON.stringify(parsedData), (err) => {
+        //         if (err){
+        //             console.log(err);
+        //             res.sendStatus(500);
+        //             return;
+        //         }
+        //         res.sendStatus(200);
+        //     });
+
+        //     res.send(JSON.stringify(parsedData));
+        // });
+        res.sendStatus(200);
     } catch (error) {
-        console.log(error);
+        console.log("Error: " + error);
+        res.sendStatus(500);
     }
 }
 
@@ -29,9 +70,8 @@ function addToData(tmp){
 app.post('/addRecord', function (req, res) {
     const filePath = './Scores/data.json';
     let jsonData = require(filePath);
-    console.log(jsonData.scores);
-    console.log(req.body);
-    addToData(req.body);
+    console.log(jsonData);
+    addToData(req.body, res);
     console.log("Got a POST request for the homepage");
     //res.send(jsonData);
 })
