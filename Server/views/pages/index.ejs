@@ -13,14 +13,14 @@
   <div class="jumbotron">
     <h1>This is great</h1>
     <p>Gay mrak</p>
-    <ol>
+    <ul>
       <% scoreboard.forEach(function(player) { %>
         <li>
           <strong><%= player.player_name %></strong>
+          <%= player.high_score %>
         </li>
       <% }); %>
-
-    </ol>
+    </ul>
   </div>
 </main>
 

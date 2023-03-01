@@ -10,6 +10,7 @@ app.set('view engine', 'ejs');
 
 // This responds with "Hello World" on the homepage
 app.get('/', function (req, res) {
+    const filePath = './Scores/data.json';
     try {
         let scoreboard = []
         fs.readFile(filePath, (err, data) => {
@@ -19,9 +20,9 @@ app.get('/', function (req, res) {
                 return;
             }
             scoreboard = JSON.parse(data);
-        });
-        res.render('pages/index', {
-            scoreboard : scoreboard
+            res.render('pages/index', {
+                scoreboard : scoreboard
+            });
         });
     } catch (error) {
         res.send(error);
