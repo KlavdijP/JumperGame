@@ -12,14 +12,18 @@ app.set('view engine', 'ejs');
 app.get('/', function (req, res) {
     const filePath = './Scores/data.json';
     try {
-        let scoreboard = []
         fs.readFile(filePath, (err, data) => {
             if (err) {
                 console.error(err);
                 res.sendStatus(500);
                 return;
             }
-            scoreboard = JSON.parse(data);
+            let scoreboard = JSON.parse(data);
+            scoreboard = scoreboard.sort((a, b) => {
+                if (a.high_score > b.high_score){
+                    return -1;
+                }
+            });
             res.render('pages/index', {
                 scoreboard : scoreboard
             });
