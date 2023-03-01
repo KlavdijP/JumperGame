@@ -208,7 +208,9 @@ class StartMenu:
         self.score = 0
         self.player_name = return_json_data()["player_name"]
         self.font = pygame.font.Font("./fonts/rexlia_rg.otf", 30)
+        self.input_rect = pygame.Rect(WIDTH/10*2, HEIGHT/10 * 1, WIDTH/10*6, 40)
 
+        self.active = False 
         self.update_score()
 
     def update_score(self):
@@ -224,10 +226,13 @@ class StartMenu:
         sfx_rect = sfx_label.get_rect(center = (WIDTH/2, HEIGHT/10 * 2))
         self.display_surface.blit(sfx_label, sfx_rect)
 
-        sfx_label = self.font.render("Player: " + str(self.player_name), False, "white")
-        sfx_rect = sfx_label.get_rect(center = (WIDTH/2, HEIGHT/10 * 1))
-        self.display_surface.blit(sfx_label, sfx_rect)
-
+        sfx_label = self.font.render(str(self.player_name), False, "white")
+        if self.active == True:
+            pygame.draw.rect(self.display_surface, "white", self.input_rect, 2)
+        else:
+            pygame.draw.rect(self.display_surface, (18,32,45), self.input_rect, 2)
+        # sfx_rect = sfx_label.get_rect(center = (WIDTH/2, HEIGHT/10 * 1))
+        self.display_surface.blit(sfx_label, (self.input_rect.x + 5, self.input_rect.y + 5))
 
         for event in event_list:
             if event.type == pygame.MOUSEBUTTONUP:
@@ -237,6 +242,22 @@ class StartMenu:
                     if x.rect.collidepoint(pos):
                         print("Clicked %s", x.type)
                         self.change_status(x.type)
+                if self.input_rect.collidepoint(pos):
+                    self.active = True
+                else:
+                    if self.active == True:
+                        change_name(self.player_name)
+                    self.active = False
+
+            if event.type == pygame.KEYDOWN:
+                if self.active == True:
+                    if event.key == pygame.K_BACKSPACE:
+                        self.player_name = self.player_name[:-1]
+                    else:
+                        if len(self.player_name) < 12:
+                            self.player_name += event.unicode
+
+
 
 class SettingsMenuMenu:
     def __init__(self, surface, change_status, settings, display):

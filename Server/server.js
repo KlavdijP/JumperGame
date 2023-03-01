@@ -45,7 +45,7 @@ function addToData(tmp, res){
     const filePath = './Scores/data.json';
     console.log(tmp.high_score);
     try {
-        let object = {'player_name':tmp.player_name, 'timestamp': Date.now(), 'high_score':tmp.high_score};
+        let object = {'player_name':tmp.player_name, 'timestamp': new Date().toLocaleString("sl-SI"), 'high_score':tmp.high_score};
 
         // fs.appendFileSync(filePath, JSON.stringify(object));
         fs.readFile(filePath, (err, data) => {

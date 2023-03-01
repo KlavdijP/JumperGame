@@ -80,3 +80,11 @@ def update_stock(item, amount):
     json_object = json.dumps(data)
     with open(filepath, "w") as f:
         f.write(json_object)
+
+def change_name(name):
+    filepath = "data.json"
+    data = return_json_data()
+    data["player_name"] = name
+    json_object = json.dumps(data)
+    with open(filepath, "w") as f:
+        f.write(json_object)

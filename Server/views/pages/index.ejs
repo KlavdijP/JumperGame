@@ -11,17 +11,28 @@
 
 <main>
   <div class="jumbotron">
-    <h1>This is great</h1>
-    <p>Gay mrak</p>
     <ul>
-      <% scoreboard.forEach(function(player) { %>
-        <li>
-          <strong><%= player.player_name %></strong>
-          <%= player.high_score %>
-        </li>
-      <% }); %>
+      <table class="container">
+        <thead>
+          <tr>
+            <th>Player</th>
+            <th>Score</th>
+            <th>Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% scoreboard.forEach(function(player) { %>
+            <tr>
+              <td><strong><%= player.player_name %></strong></td>
+              <td><%= player.high_score %></td>
+              <td><%= player.timestamp %></td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
     </ul>
   </div>
+
 </main>
 
 <footer>
