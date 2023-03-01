@@ -12,13 +12,15 @@
 <main>
   <div class="jumbotron">
     <h1>This is great</h1>
-    <p>Moj lulček hoče sončit se,<br>
-      prav tako kot rit.<br>
-      Moj lulček res vse bi dal,<br>
-      da jajca bi na soncu žgal.<br>
-      <br>
-      Joške na prostost hitijo,<br>
-      miške tut - in jo dobijo.<br></p>
+    <p>Gay mrak</p>
+    <ol>
+      <% scoreboard.forEach(function(player) { %>
+        <li>
+          <strong><%= player.player_name %></strong>
+        </li>
+      <% }); %>
+
+    </ol>
   </div>
 </main>
 

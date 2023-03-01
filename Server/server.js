@@ -10,7 +10,22 @@ app.set('view engine', 'ejs');
 
 // This responds with "Hello World" on the homepage
 app.get('/', function (req, res) {
-   res.render('pages/index');
+    try {
+        let scoreboard = []
+        fs.readFile(filePath, (err, data) => {
+            if (err) {
+                console.error(err);
+                res.sendStatus(500);
+                return;
+            }
+            scoreboard = JSON.parse(data);
+        });
+        res.render('pages/index', {
+            scoreboard : scoreboard
+        });
+    } catch (error) {
+        res.send(error);
+    }
 });
 
 app.get('/about', function (req, res) {
