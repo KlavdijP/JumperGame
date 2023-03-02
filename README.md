@@ -7,19 +7,6 @@ https://www.youtube.com/watch?v=_E7kE3Zuf3A
 
 
 # TODO
-Sound
-    Background music https://www.chosic.com/download-audio/45407/
-    Enemy flying
-    Platform break
-
-Animations
-
-New images, template, theme
-
-Meniji (3x5*)
-    Pause menu edit
-    Start menu
-    Settings menu
 
 Progression
 <!-- 
@@ -49,3 +36,20 @@ Kontrolni elementi grafičnega uporabniškega vmesnika (3x5*)
     Jump
     Laser shoot
     Enemy dies
+    
+    
+    
+Sound
+    Background music https://www.chosic.com/download-audio/45407/
+    Enemy flying
+    Platform break
+
+Animations
+
+New images, template, theme
+
+Meniji (3x5*)
+    Pause menu edit
+    Start menu
+    Settings menu
+
