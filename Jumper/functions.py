@@ -20,19 +20,16 @@ def load_image(src, sc1, sc2, flipped=False):
 #         with open(src, 'r') as file:
 #             # Read the contents of the file
 #             file_contents = file.read()
-#             print(file_contents)
 #             return file_contents
 #     except FileNotFoundError:
 #         # Create a new file if the file doesn't exist
 #         with open(src, 'w') as file:
 #             file.write("0")
-#             print("file created")
 #             return "0"
 
 # def write_file(src, text):
 #     with open(src, "w+") as file:
 #         file.write(str(text))
-#         print("Writing in file: %s", text)
 
 def return_json_data():
     filepath = "data.json"

@@ -24,7 +24,7 @@ bouncerimages = [
     load_image('./Bouncer/bouncer02', 100, 100),
     load_image('./Bouncer/bouncer03', 100, 100),
     load_image('./Bouncer/bouncer04', 100, 100)
-    ]
+]
 
 
 class EnemyAir(pygame.sprite.Sprite):
@@ -67,8 +67,6 @@ class EnemyAir(pygame.sprite.Sprite):
         else:
             self.direction.x, self.direction.y = [0, 0]
 
-        # print(self.direction.x, self.direction.y)
-
     def move_left_right(self):
         self.rect.x += self.speed * self.rest_direction
         if self.rect.x < 0:
@@ -77,18 +75,12 @@ class EnemyAir(pygame.sprite.Sprite):
             self.rest_direction = -1
 
     def move(self):
-        # angle = atan2(self.direction.x, self.direction.y)
-        # x = cos(angle)
-        # y = sin(angle)
-        # print(angle*180/pi, x, y)
         if self.detect == False and self.returnBack == False:
             self.rect.y += self.speed
             self.move_left_right()
         else:
             self.rect.x += self.direction.x * self.speed
             self.rect.y += self.direction.y * self.speed
-
-        # print(self.rect)
 
     def update(self, player):        
         if self.detect == False and self.returnBack == False: ##Go to player position
@@ -101,14 +93,12 @@ class EnemyAir(pygame.sprite.Sprite):
         #     self.pointTo(self.returnPos)
         if self.detect == True and self.returnBack == False: ##From start to player
             self.pointTo(self.playerPos)
-            # print(dist((self.rect.x, self.rect.y), self.playerPos))
             if dist((self.rect.x, self.rect.y), self.playerPos) <= self.speed:
             # if self.direction.x == 0 and self.direction.y == 0:
                 self.returnBack = True
                 self.detect = False
         if self.detect == False and self.returnBack == True:
             self.pointTo(self.returnPos)
-            # print(dist((self.rect.x, self.rect.y), self.returnPos))
             if dist((self.rect.x, self.rect.y), self.returnPos) <= self.speed:
             # if self.direction.x == 0 and self.direction.y == 0:
                 self.returnBack = False
@@ -138,7 +128,6 @@ class PCFan(pygame.sprite.Sprite):
 
     def move(self):
         self.rect.y += self.speed
-        # print(self.rect)
 
     def animate(self):
         if self.counter > len(fanimages)-1:

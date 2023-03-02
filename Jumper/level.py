@@ -23,7 +23,7 @@ class Level:
         self.enemyBouncer = pygame.sprite.GroupSingle()
         self.lastenemy = 0
         self.bullets = pygame.sprite.Group()
-        self.score = 140
+        self.score = 0
         self.microchips = 0
         self.cash = 0
         self.difficulty = "easy"
@@ -147,12 +147,12 @@ class Level:
                     bullet.kill()
                     air.die()
                     air.kill()
-                    print("Enemy air je ubit")
+                    # print("Enemy air je ubit")
             for bouncer in self.enemyBouncer.sprites():
                 if bullet.rect.colliderect(bouncer.rect):
                     bullet.kill()
                     bouncer.kill()
-                    print("Enemy bouncer je ubit")
+                    # print("Enemy bouncer je ubit")
 
     def collision_player_objects(self):
         #Player touches enemy air
@@ -323,7 +323,7 @@ class Level:
             if event.type == pygame.MOUSEBUTTONUP:
                 ##pos = pygame.mouse.get_pos()
                 pos = get_mouse_pos(self.display)
-                print(pos, self.player.sprite.position()[0]+25, self.player.sprite.position()[1]+25)
+                # print(pos, self.player.sprite.position()[0]+25, self.player.sprite.position()[1]+25)
                 self.playerShootBullet(pos)
                 # self.shield.add(Shield(self.player.sprite.position()))
         self.bullets.update()

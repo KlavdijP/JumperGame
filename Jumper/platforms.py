@@ -45,7 +45,7 @@ class Platform(pygame.sprite.Sprite):
             getpos -= 50
         self.move_to = getpos
 
-        print(self.rect.x, self.move_to)
+        # print(self.rect.x, self.move_to)
     def returnType(self):
         return self.type
 
@@ -54,7 +54,7 @@ class Platform(pygame.sprite.Sprite):
             randMove = randint(0, self.arr[0])
             if randMove > self.arr[1] and randMove < self.arr[2]:
                 self.move = True
-                print("self move = true")
+                # print("self move = true")
 
     def giveType(self):
         movable = 100
@@ -82,12 +82,12 @@ class Platform(pygame.sprite.Sprite):
 
         randType = randint(0, self.arr[0])
         if randType < self.arr[1]:
-            print(randType)
+            # print(randType)
             return 1
         elif randType >= self.arr[1] and randType < self.arr[2]:
             return 2
         else:
-            print(randType)
+            # print(randType)
             return 3
 
     def update(self):

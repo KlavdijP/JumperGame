@@ -36,11 +36,11 @@ class PauseMenu:
         for event in event_list:
             if event.type == pygame.MOUSEBUTTONUP:
                 pos = get_mouse_pos(self.display)
-                print(pos)
+                # print(pos)
                 for x in self.buttons:
-                    print("\t%s %s" % (x.pos, x.type))
+                    # print("\t%s %s" % (x.pos, x.type))
                     if x.rect.collidepoint(pos):
-                        print("Clicked %s", x.type)
+                        # print("Clicked %s", x.type)
                         self.change_status(x.type)
 
 class ShopMenu:
@@ -174,10 +174,10 @@ class ShopMenu:
         for event in event_list:
             if event.type == pygame.MOUSEBUTTONUP:
                 pos = get_mouse_pos(self.display)
-                print(pos)
+                # print(pos)
                 for x in self.buttons:
                     if x.rect.collidepoint(pos):
-                        print("Clicked %s", x.type)
+                        # print("Clicked %s", x.type)
                         if x.type == "gpu":
                             self.buy("gpu")
                         elif x.type == "microchip":
@@ -240,10 +240,10 @@ class StartMenu:
         for event in event_list:
             if event.type == pygame.MOUSEBUTTONUP:
                 pos = get_mouse_pos(self.display)
-                print(pos)
+                # print(pos)
                 for x in self.buttons:
                     if x.rect.collidepoint(pos):
-                        print("Clicked %s", x.type)
+                        # print("Clicked %s", x.type)
                         self.change_status(x.type)
                 if self.input_rect.collidepoint(pos):
                     self.active = True
@@ -300,10 +300,10 @@ class SettingsMenuMenu:
         for event in event_list:
             if event.type == pygame.MOUSEBUTTONUP:
                 pos = get_mouse_pos(self.display)
-                print(pos)
+                # print(pos)
                 for x in self.buttons:
                     if x.rect.collidepoint(pos):
-                        print("Clicked %s", x.type)
+                        # print("Clicked %s", x.type)
                         if x.type != "volume":
                             self.change_status(x.type)
                         else:
@@ -354,10 +354,10 @@ class SettingsMenuPause:
         for event in event_list:
             if event.type == pygame.MOUSEBUTTONUP:
                 pos = get_mouse_pos(self.display)
-                print(pos)
+                # print(pos)
                 for x in self.buttons:
                     if x.rect.collidepoint(pos):
-                        print("Clicked %s", x.type)
+                        # print("Clicked %s", x.type)
                         if x.type != "volume":
                             self.change_status(x.type)
                         else:

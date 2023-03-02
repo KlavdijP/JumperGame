@@ -34,7 +34,7 @@ class Settings:
         elif self.sfx > 100:
             self.sfx = 100
 
-        print(self.sfx)
+        # print(self.sfx)
     
     def start_song(self):
         pygame.mixer.music.play(-1)
