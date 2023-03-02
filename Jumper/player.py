@@ -65,8 +65,8 @@ class Player(pygame.sprite.Sprite):
             if self.direction.x == -1 and not self.looking_left:
                 self.image = pygame.transform.flip(self.image, True, False)
                 self.looking_left = True
-        elif keys[pygame.K_UP] or keys[pygame.K_w]:
-            self.jump(self.rect.bottom)
+        # elif keys[pygame.K_UP] or keys[pygame.K_w]:
+        #     self.jump(self.rect.bottom)
         else:
             self.direction.x = 0
         

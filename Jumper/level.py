@@ -23,7 +23,7 @@ class Level:
         self.enemyBouncer = pygame.sprite.GroupSingle()
         self.lastenemy = 0
         self.bullets = pygame.sprite.Group()
-        self.score = 140
+        self.score = 0
         self.microchips = 0
         self.cash = 0
         self.difficulty = "easy"
@@ -31,6 +31,8 @@ class Level:
         self.shield = pygame.sprite.GroupSingle()
         self.pickups = pygame.sprite.Group()
         self.display = display
+        self.font = pygame.font.Font("./fonts/rexlia_rg.otf", 15)
+
 
         #Background
         self.bck_scroll = 0
@@ -109,10 +111,9 @@ class Level:
         for sprite in self.platforms.sprites():
             if sprite.rect.y > 100 and sprite.generated == False:
                 sprite.generated = True
-                movable = randint(0,5)
-                platform = Platform(randint(0, WIDTH-100), 0, self.settings, self.difficulty, move=(True if movable==1 else False))
+                platform = Platform(randint(0, WIDTH-100), 0, self.settings, self.difficulty)
                 while(platform.returnType() == 3 and self.last_type == 3):
-                    platform = Platform(randint(0, WIDTH-100), 0, self.settings, self.difficulty, move=(True if movable==1 else False))
+                    platform = Platform(randint(0, WIDTH-100), 0, self.settings, self.difficulty)
                 
                 #Shield generate
                 spawn_shield = randint(0, 1000)
@@ -191,6 +192,8 @@ class Level:
         update_high_score(self.score)
         update_stock("microchips", self.microchips)
         update_stock("money", self.cash)
+        post_request(return_json_data())
+
         self.microchips = 0
         self.cash = 0
         self.change_status("start_menu")
@@ -264,6 +267,19 @@ class Level:
         if self.bck_scroll >= HEIGHT:
             self.bck_scroll = 0
         self.draw_background(self.bck_scroll)
+
+        #tutorial
+        if self.score < 20:
+            sfx_label = self.font.render("press A and D to move", False, "black")
+            sfx_rect = sfx_label.get_rect(center = (WIDTH/2, HEIGHT/10 * 6))
+            self.display_surface.blit(sfx_label, sfx_rect)
+            sfx_label = self.font.render("avoid enemies or shoot them down", False, "black")
+            sfx_rect = sfx_label.get_rect(center = (WIDTH/2, HEIGHT/10 * 6.5))
+            self.display_surface.blit(sfx_label, sfx_rect)
+            sfx_label = self.font.render("pick up microchips and cash", False, "black")
+            sfx_rect = sfx_label.get_rect(center = (WIDTH/2, HEIGHT/10 * 7))
+            self.display_surface.blit(sfx_label, sfx_rect)
+
         #player
         self.player.update(event_list)
         if self.player.sprite.rect.y > HEIGHT:

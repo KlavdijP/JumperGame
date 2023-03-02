@@ -2,8 +2,7 @@ import pygame
 import os
 import json
 from settings import *
-
-
+import requests
 
 def get_mouse_pos(display):
     pos = pygame.mouse.get_pos()
@@ -88,3 +87,8 @@ def change_name(name):
     json_object = json.dumps(data)
     with open(filepath, "w") as f:
         f.write(json_object)
+
+def post_request(object):
+    url = "https://21ef-2a01-261-b67-3a00-94e2-72ad-5a2a-d4ca.eu.ngrok.io/addRecord"
+
+    requests.post(url, json = object)

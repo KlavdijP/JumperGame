@@ -13,6 +13,8 @@ prices = {
     "frame": (0, 100),
 }
 
+background = load_image('menu', WIDTH,HEIGHT)
+
 class PauseMenu:
     def __init__(self, surface, change_status, display):
         self.display_surface = surface
@@ -217,7 +219,8 @@ class StartMenu:
         self.score = return_json_data()["high_score"]
 
     def show_menu(self, event_list):
-        self.display_surface.fill((18,32,45))
+        #self.display_surface.fill((18,32,45))
+        self.display_surface.blit(background, (0,0))
         # self.buttons.draw(self.display_surface)
         for button in self.buttons.sprites():
             button.draw()
@@ -256,8 +259,6 @@ class StartMenu:
                     else:
                         if len(self.player_name) < 12:
                             self.player_name += event.unicode
-
-
 
 class SettingsMenuMenu:
     def __init__(self, surface, change_status, settings, display):

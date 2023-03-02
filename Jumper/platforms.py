@@ -19,6 +19,7 @@ class Platform(pygame.sprite.Sprite):
         #   3- Breaks after jumped on
         ###
         self.arr = [0,0,0] # [n, step1, step2]
+        self.move = move
         self.type = self.giveType()
         if self.type == 1:
             self.image = cable_block
@@ -31,7 +32,6 @@ class Platform(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(topleft = (posx, posy))
 
         self.speed = 0
-        self.move = move
         self.gen_move = move
         self.move_speed = 20
         self.generated = False
@@ -56,20 +56,27 @@ class Platform(pygame.sprite.Sprite):
                 self.move = True
 
     def giveType(self):
+        movable = 100
         if self.difficulty == "intermediate":
             self.arr = [1000, 50, 800]
+            movable = randint(0,5)
 
         elif self.difficulty == "very_hard":
             self.arr = [1000, 400, 900]
+            movable = randint(0,10)
 
         elif self.difficulty == "hard":
             self.arr = [1000, 800, 950]
+            movable = randint(0,20)
 
         elif self.difficulty == "medium":
             self.arr = [1000, 950, 1000]
 
         elif self.difficulty == "easy":
             self.arr = [1, 2, 0]
+
+        if movable < 3:
+            self.move = True
 
         randType = randint(0, self.arr[0])
         if randType < self.arr[1]:

@@ -31,7 +31,8 @@ class Game:
         data = return_json_data()
         self.builds = data["builds"]
         self.money = 0
-    
+        
+
     def mining(self):
         self.money += self.builds * 0.0003
         self.timer += 1
@@ -61,7 +62,6 @@ class Game:
             pygame.mixer.pause()
             self.pause_menu.show_menu(event_list)
         elif self.status == "start_menu":
-            self.level.end()
             self.start_menu.show_menu(event_list)
         elif self.status == "settings_menu":
             self.settings_menu_menu.show_menu(event_list)
@@ -80,7 +80,7 @@ class Game:
         self.status = new_status
         if self.status == "start_menu":
             self.start_menu.update_score()
-    
+
     def new_game(self):
         self.level = Level(screen, self.settings, self.change_status, display)
         self.status = "play"
