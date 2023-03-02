@@ -20,6 +20,7 @@ class Platform(pygame.sprite.Sprite):
         ###
         self.arr = [0,0,0] # [n, step1, step2]
         self.move = move
+        self.gen_move = move
         self.type = self.giveType()
         if self.type == 1:
             self.image = cable_block
@@ -32,7 +33,6 @@ class Platform(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(topleft = (posx, posy))
 
         self.speed = 0
-        self.gen_move = move
         self.move_speed = 20
         self.generated = False
         self.move_to = 0
@@ -54,6 +54,7 @@ class Platform(pygame.sprite.Sprite):
             randMove = randint(0, self.arr[0])
             if randMove > self.arr[1] and randMove < self.arr[2]:
                 self.move = True
+                print("self move = true")
 
     def giveType(self):
         movable = 100
@@ -76,6 +77,7 @@ class Platform(pygame.sprite.Sprite):
             self.arr = [1, 2, 0]
 
         if movable < 3:
+            self.gen_move = True
             self.move = True
 
         randType = randint(0, self.arr[0])

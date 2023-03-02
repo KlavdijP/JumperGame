@@ -23,7 +23,7 @@ class Level:
         self.enemyBouncer = pygame.sprite.GroupSingle()
         self.lastenemy = 0
         self.bullets = pygame.sprite.Group()
-        self.score = 0
+        self.score = 140
         self.microchips = 0
         self.cash = 0
         self.difficulty = "easy"

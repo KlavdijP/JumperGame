@@ -21,7 +21,10 @@ airimages = [
 
 bouncerimages = [
     load_image('./Bouncer/bouncer01', 100, 100),
-]
+    load_image('./Bouncer/bouncer02', 100, 100),
+    load_image('./Bouncer/bouncer03', 100, 100),
+    load_image('./Bouncer/bouncer04', 100, 100)
+    ]
 
 
 class EnemyAir(pygame.sprite.Sprite):

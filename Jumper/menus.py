@@ -22,10 +22,10 @@ class PauseMenu:
         self.change_status = change_status
         self.buttons = pygame.sprite.Group()
 
-        self.buttons.add(Button((WIDTH/2, HEIGHT/10 * 2), self.display_surface, "play", metrics=(150,50), image="/buttons/resume"))
-        self.buttons.add(Button((WIDTH/2, HEIGHT/10 * 4), self.display_surface, "start_menu", metrics=(150,50), image="/buttons/menu"))
+        self.buttons.add(Button((WIDTH/2, HEIGHT/10 * 4), self.display_surface, "play", metrics=(150,50), image="/buttons/resume"))
+        self.buttons.add(Button((WIDTH/2, HEIGHT/10 * 5), self.display_surface, "start_menu", metrics=(150,50), image="/buttons/menu"))
         self.buttons.add(Button((WIDTH/2, HEIGHT/10 * 6), self.display_surface, "settings_pause", metrics=(150,50), image="/buttons/settings"))
-        self.buttons.add(Button((WIDTH/2, HEIGHT/10 * 8), self.display_surface, "exit", metrics=(150,50), image="/buttons/exit"))
+        self.buttons.add(Button((WIDTH/2, HEIGHT/10 * 7), self.display_surface, "exit", metrics=(150,50), image="/buttons/exit"))
         
     def show_menu(self, event_list):
         self.display_surface.fill((18,32,45))
