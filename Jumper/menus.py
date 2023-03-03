@@ -119,7 +119,7 @@ class ShopMenu:
                 update_stock("microchips", -1 * prices["cpu"][0])
         
         elif item == "frame":
-            if self.money - prices["frame"][0] >= 0:
+            if self.money - prices["frame"][1] >= 0:
                 update_stock("frames", 1)
                 update_stock("money", -1 * prices["frame"][1])
 
