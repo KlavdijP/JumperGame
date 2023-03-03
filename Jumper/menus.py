@@ -121,7 +121,7 @@ class ShopMenu:
         elif item == "frame":
             if self.money - prices["frame"][0] >= 0:
                 update_stock("frames", 1)
-                update_stock("money", -1 * prices["frame"][0])
+                update_stock("money", -1 * prices["frame"][1])
 
         elif item == "build":
             if (self.mbs - 1 >= 0 and
