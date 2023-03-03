@@ -4,7 +4,7 @@ from functions import *
 from settings import *
 from level import Level
 from ui import UI
-from menus import PauseMenu, StartMenu, SettingsMenuMenu, SettingsMenuPause, ShopMenu
+from menus import PauseMenu, StartMenu, SettingsMenuMenu, SettingsMenuPause, ShopMenu, StartAbout
 
 
 pygame.init()
@@ -22,6 +22,7 @@ class Game:
         self.pause_menu = PauseMenu(screen, self.change_status, display)
         self.settings_menu_menu = SettingsMenuMenu(screen, self.change_status, settings, display)
         self.settings_menu_pause = SettingsMenuPause(screen, self.change_status, settings, display)
+        self.start_licences = StartAbout(screen, self.change_status, display)
         self.money = 0
         self.builds = 0
         self.timer = 0
@@ -72,6 +73,8 @@ class Game:
             self.settings_menu_pause.show_menu(event_list)
         elif self.status == "newgame":
             self.new_game()
+        elif self.status == "start_about":
+            self.start_licences.show_menu(event_list)
         elif self.status == "exit":
             pygame.quit()
             sys.exit()

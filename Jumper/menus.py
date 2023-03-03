@@ -206,7 +206,8 @@ class StartMenu:
         self.buttons.add(Button((WIDTH/2, HEIGHT/10 * 4), self.display_surface, "newgame", metrics=(150,50), image="/buttons/play"))
         self.buttons.add(Button((WIDTH/2, HEIGHT/10 * 5), self.display_surface, "shop_menu", metrics=(150,50), image="/buttons/shop"))
         self.buttons.add(Button((WIDTH/2, HEIGHT/10 * 6), self.display_surface, "settings_menu", metrics=(150,50), image="/buttons/settings"))
-        self.buttons.add(Button((WIDTH/2, HEIGHT/10 * 7), self.display_surface, "exit", metrics=(150,50), image="/buttons/exit"))
+        self.buttons.add(Button((WIDTH/2, HEIGHT/10 * 7), self.display_surface, "start_about", metrics=(150,50), image="/buttons/about"))
+        self.buttons.add(Button((WIDTH/2, HEIGHT/10 * 8), self.display_surface, "exit", metrics=(150,50), image="/buttons/exit"))
         self.score = 0
         self.player_name = return_json_data()["player_name"]
         self.font = pygame.font.Font("./fonts/rexlia_rg.otf", 30)
@@ -369,3 +370,39 @@ class SettingsMenuPause:
                                 self.settings.set_song(10)
                             elif x.displayed == "m-":
                                 self.settings.set_song(-10)
+
+class StartAbout:
+    def __init__(self, surface, change_status, display):
+        self.display_surface = surface
+        self.display = display
+        self.change_status = change_status
+        self.buttons = pygame.sprite.Group()
+        self.buttons.add(Button((WIDTH/10 * 8, HEIGHT/10 * 9), self.display_surface, "start_menu", metrics=(150,50), image="/buttons/back"))
+        self.font = pygame.font.Font("./fonts/Calibri Regular.ttf", 15)
+        
+        self.text = []
+        self.read_file()
+
+    def read_file(self):
+        with open('./licences.txt') as f:
+            for line in f:
+                self.text.append(line.strip())
+
+    def show_menu(self, event_list):
+        self.display_surface.fill((18,32,45))
+        for button in self.buttons.sprites():
+            button.draw()
+
+        for i, line in enumerate(self.text):
+            sfx_label = self.font.render(line, False, "white")
+            sfx_rect = sfx_label.get_rect(midleft = (10, HEIGHT/len(self.text) * i +10))
+            self.display_surface.blit(sfx_label, sfx_rect)
+
+        for event in event_list:
+            if event.type == pygame.MOUSEBUTTONUP:
+                pos = get_mouse_pos(self.display)
+                # print(pos)
+                for x in self.buttons:
+                    if x.rect.collidepoint(pos):
+                        # print("Clicked %s", x.type)
+                        self.change_status(x.type)
